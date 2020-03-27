@@ -71,6 +71,33 @@ export default class UserRepo {
         cb(this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ?;`).get(username));
     }
 
+    static getHashpassByUsername(username: string, cb: (hashpass: string) => void): void {
+        let user: User = this.db.prepare(`SELECT hashpass FROM ${this.tableName} WHERE username = ?;`).get(username);
+
+        if(!user) return cb(undefined)
+        cb(user.hashpass);
+    }
+
+    static get NOT_EXIST() { return 0 }
+    static get EMAIL_EXIST() { return 1 }
+    static get USERNAME_EXIST() { return 2 }
+    static get BOTH_EXIST() { return 3 }
+    static checkExist(email: string,username: string, cb: (existState: number) => void) {
+        let users: User[] = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ? or email = ?;`).all(username,email);
+        
+        let res = 0;
+         
+        for (let user of users)
+            if (user.email === email)
+                res += this.EMAIL_EXIST;
+        
+        for (let user of users)
+            if (user.username === username)
+                res += this.USERNAME_EXIST;
+        
+        cb(res) ;
+    }
+
     static getAll(cb: (users: User[]) => void) :void {
         cb(this.db.prepare(`SELECT * FROM ${this.tableName}`).all());
     }

@@ -5,6 +5,7 @@ import Database from 'better-sqlite3';
 import UserRepo from "./UserRepo"
 import FollowRepo from "./FollowRepo"
 import PostRepo from "./PostRepo"
+import HashtagRepo from './HashtagRepo';
 
 
 export default class DB{
@@ -13,10 +14,6 @@ export default class DB{
 
     private static db;
 
-    public static userRepo;
-    public static followRepo;
-    public static postRepo;
-
     public static init() {
         
         this.db = new Database(this.fileName, { verbose: console.log });
@@ -24,10 +21,12 @@ export default class DB{
         UserRepo.init(this.db)
         FollowRepo.init(this.db)
         PostRepo.init(this.db)
+        HashtagRepo.init(this.db)
+        //init more tables|repos here
+    }
 
-        this.userRepo = UserRepo
-        this.followRepo = FollowRepo
-        this.postRepo = PostRepo
+    public static backup() {
+        // TODO and backup route for admin
     }
 
 

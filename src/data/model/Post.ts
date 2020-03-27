@@ -13,7 +13,7 @@ export default class Post {
         if (!this._id) this._id = uuidv4();
         return this._id
     }
-    set id(id:string) {
+    set id(id: string) {
         this._id = id;
     }
 
@@ -24,6 +24,13 @@ export default class Post {
 
     time: number; //unixtime
 
+
+    constructor(owner: string, title: string, content: string) {
+        this.owner = owner;
+        this.title = title;
+        this.content = content;
+        this.time = new Date().getTime()
+    }
 
     static validate(Userobj): string | undefined {
         const schema = {
