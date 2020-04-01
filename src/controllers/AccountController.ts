@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken";
-import fs from "fs";
 import bcrypt from "bcrypt";
 
 import ValidationMiddaleware from "./../middleware/validation/AccountValidationMiddleware"
@@ -7,22 +5,34 @@ import ValidationMiddaleware from "./../middleware/validation/AccountValidationM
 import User from "../data/model/User";
 import UserRepo from "../data/repo/UserRepo";
 import BaseController from "./BaseController";
+import JWT from "../middleware/AuthMiddleware";
 
 
 export default class AccountController extends BaseController {
 
     public static init(app) {
-        super.init(app,"/account")
+        super.init(app, "/account")
 
         this.post("/signup", false, ValidationMiddaleware.signup, this.signUp)
 
         this.post("/login", false, ValidationMiddaleware.login, this.login)
 
+        this.post("/editUsername", true, ValidationMiddaleware.editUsername, this.editUsername)
+
+        this.post("/editFullName", true, ValidationMiddaleware.editFullName, this.editFullName)
+
+        this.post("/editBio", true, ValidationMiddaleware.editBio, this.editBio)
+
+        this.post("/editPassword", true, ValidationMiddaleware.editPassword, this.editPassword)
+
+        this.post("/getAccountInfo/:username", false, ValidationMiddaleware.getAccountInfo, this.getAccountInfo)
+
+
     }
 
     private static signUp(req, res) {
-        
-        let user : User = User.parse(req.body)
+
+        let user: User = User.parse(req.body)
 
         UserRepo.checkExist(user.email, user.username, (existState) => {
             switch (existState) {
@@ -56,7 +66,7 @@ export default class AccountController extends BaseController {
                     if (err) return res.status(500).send({ err: err.message })
 
                     if (same) {
-                        let token = AccountController.generateToken(req.body.username)
+                        let token = JWT.generateToken(req.body.username)
                         res.status(200)
                             .header("x-auth-token", token)
                             .cookie("x-auth-token", token)
@@ -77,9 +87,79 @@ export default class AccountController extends BaseController {
         })
     }
 
-    private static generateToken(userUsername: string): string {
-        let key = fs.readFileSync("jwt.key")
-        const token = jwt.sign({ username: userUsername }, key);
-        return token;
+    private static editUsername(req, res) {
+
+
+        try {
+            UserRepo.updateUsername(req.user.username, req.body.newUsername)
+            res.status(200).send({ msg: "successfully edited" })
+        } catch (e) {
+            res.status(500).send({ err: e.message })
+        }
+
+    }
+
+    private static editFullName(req, res) {
+
+        try {
+            UserRepo.updateFullName(req.body.email, req.body.newFullName)
+            res.status(200).send({ msg: "successfully added" })
+        } catch (e) {
+            res.status(500).send({ err: e.message })
+        }
+    }
+
+    private static editBio(req, res) {
+
+        try {
+            UserRepo.updateUsername(req.body.email, req.body.newBio)
+            res.status(200).send({ msg: "successfully added" })
+        } catch (e) {
+            res.status(500).send({ err: e.message })
+        }
+    }
+
+    private static getAccountInfo(req, res) {
+
+        UserRepo.getWithUsername(req.params.username, (user: User) => {
+            if (user) {
+                user.hashpass = undefined
+                res.status(200).send(user);
+            }
+
+            else
+                res.status(404).send({ err: "user not found" })
+        })
+    }
+
+    private static editPassword(req, res) {
+        let username = req.user.username;
+        let oldPassword = req.body.oldPassword;
+        let newpassword = req.body.newPassword;
+
+        UserRepo.getHashpassByUsername(username, (hashpass) => {
+
+            if (hashpass) {
+                bcrypt.compare(oldPassword, hashpass, (err: Error, same: boolean) => {
+
+                    if (err) return res.status(500).send({ err: err.message })
+
+                    if (same) {
+                        let newHashPass = bcrypt.hashSync(newpassword, 10);
+                        UserRepo.updatePassword(username, newHashPass)
+                        res.status(200).send({msg: "password changed successfully"});
+                    } else {
+                        setTimeout(() => {
+                            res.status(400)
+                                .send({ err: "password is not correct" })
+                        }, 2000)
+                    }
+                })
+
+
+            } else {
+                res.status(404).send("username not found")
+            }
+        })
     }
 }

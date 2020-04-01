@@ -1,6 +1,6 @@
 
-import Joi from "joi";
 import BaseValidationMiddaleware from "./BaseValidationMiddleware"
+import User from "../../data/model/User";
 
 export default class AccountValidationMiddleware extends BaseValidationMiddaleware {
 
@@ -8,33 +8,93 @@ export default class AccountValidationMiddleware extends BaseValidationMiddalewa
     //---------------Naming-----------------
     // _X_Y
     // X api path
-    // Y == B => body validation schema
-    // Y == H => header validation schema
+    // Y == "B" => body validation schema
+    // Y == "H" => header validation schema
+    // Y == "P" => params validation schema
+    
 
     private static _signup_B = {
-        email: Joi.string().min(5).max(255).required().email(),
-        username: Joi.string().min(5).max(255).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
-        password: Joi.string().min(8).max(255).required(),
-        fullName: Joi.string().min(3).max(255).required(),
-        bio: Joi.string().min(3).max(500).required()
+        email: User.joi.email,
+        username: User.joi.username,
+        password: User.joi.password,
+        fullName: User.joi.fullName,
+        bio: User.joi.bio
     };
 
     private static _login_B = {
-        username: Joi.string().min(5).max(255).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
-        password: Joi.string().min(8).max(255).required()
+        username: User.joi.username,
+        password: User.joi.password
+    };
+
+    
+    private static _editUsername_B = {
+        newUsername: User.joi.username
+    };
+
+    private static _editFullName_B = {
+        newFullName: User.joi.fullName
+    };
+
+    private static _editBio_B = {
+        newBio: User.joi.bio
+    };
+
+    private static _editPassword_B = {
+        oldPassword: User.joi.password,
+        newPassword: User.joi.password
+    };
+
+
+    private static _getAccountInfo_P = {
+        username: User.joi.username
     };
 
     static get signup() {
         return (req, res, next) => {
             super.handleError(req, res, next,
-                this._signup_B, null
+                this._signup_B, null,null
             )
         }
     }
     static get login() {
         return (req, res, next) => {
             super.handleError(req, res, next,
-                this._login_B, null
+                this._login_B, null,null
+            )
+        }
+    }
+    static get editUsername() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                this._editUsername_B, null,null
+            )
+        }
+    }
+    static get editFullName() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                this._editFullName_B, null,null
+            )
+        }
+    }
+    static get editBio() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                this._editBio_B, null,null
+            )
+        }
+    }
+    static get editPassword() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                this._editPassword_B, null, null
+            )
+        }
+    }
+    static get getAccountInfo() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                null, null,this._getAccountInfo_P
             )
         }
     }

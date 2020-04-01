@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt"
+import Joi from "joi"
 
 export default class User {
 
@@ -37,5 +38,17 @@ export default class User {
             userObj.bio
         );
     } 
+
+    private static _joi = {
+        email: Joi.string().min(5).max(255).required().email(),
+        username: Joi.string().min(5).max(255).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
+        password: Joi.string().min(8).max(255).required(),
+        fullName: Joi.string().min(3).max(255).required(),
+        bio: Joi.string().min(3).max(500).required()
+    }
+
+    public static get joi() {
+        return this._joi;
+    }
 
 }

@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "prestart": " rm -rf dist/ && tsc",
+    "prestart": " tsc",
     "start": "node dist/App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

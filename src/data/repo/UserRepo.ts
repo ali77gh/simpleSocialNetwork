@@ -20,8 +20,8 @@ export default class UserRepo {
 
         this.db.exec(`
         create table IF NOT EXISTS ${this.tableName} (
-            email             text not null,
-            username          text not null,
+            email             text not null UNIQUE,
+            username          text not null UNIQUE,
             hashpass          text not null,
             fullname          text not null,
             bio               text not null
@@ -38,25 +38,32 @@ export default class UserRepo {
        
     }
 
-    static updateBio(email: string, newBio:string): void {
-        this.db.prepare(`UPDATE ${this.tableName} 
-            SET bio = ? 
-            WHERE email = ?;
-            `).run(newBio, email);
-    }
-
-    static updateUsername(email: string, newUsername: string): void {
+    static updateUsername(username: string, newUsername: string): void {
         this.db.prepare(`UPDATE ${this.tableName} 
             SET username = ? 
-            WHERE email = ?;
-            `).run(newUsername,email)
+            WHERE username = ?;
+            `).run(newUsername,username)
     }
 
-    static updateFullName(email: string, newFullName: string): void {
+    static updateFullName(username: string, newFullName: string): void {
         this.db.prepare(`UPDATE ${this.tableName} 
             SET fullname = ? 
-            WHERE email = ?;
-            `).run(newFullName,email)
+            WHERE username = ?;
+            `).run(newFullName,username)
+    }
+
+    static updateBio(username: string, newBio: string): void {
+        this.db.prepare(`UPDATE ${this.tableName} 
+            SET bio = ? 
+            WHERE username = ?;
+            `).run(newBio, username);
+    }
+
+    static updatePassword(username: string, newHashPass: string): void {
+        this.db.prepare(`UPDATE ${this.tableName} 
+            SET hashpass = ? 
+            WHERE username = ?;
+            `).run(newHashPass, username);
     }
 
     static delete(email: string): void {

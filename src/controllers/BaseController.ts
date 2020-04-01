@@ -1,5 +1,5 @@
 
-import auth from "./../middleware/AuthMiddleware";
+import JWT from "./../middleware/AuthMiddleware";
 
 export default class BaseController{
 
@@ -15,7 +15,7 @@ export default class BaseController{
     protected static post(path: string, needAuth: boolean, validationMiddleware: (req, res, next) => void, cb: (req, res) => void) {
         path = this._prepath + path
         if (needAuth)
-            this._app.post(path, validationMiddleware, auth, cb);
+            this._app.post(path, validationMiddleware, JWT.middleware, cb);
         else
             this._app.post(path, validationMiddleware, cb);
     }
