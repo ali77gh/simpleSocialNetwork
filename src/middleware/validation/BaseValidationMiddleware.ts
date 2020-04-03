@@ -33,4 +33,12 @@ export default class BaseValidationMiddaleware{
 
         next();
     }
+
+    public static get noValidation() {
+        return (req, res, next) => {
+            this.handleError(req, res, next,
+                null, null, null
+            )
+        }
+    }
 }

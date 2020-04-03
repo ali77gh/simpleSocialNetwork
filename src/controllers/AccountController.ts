@@ -27,7 +27,7 @@ export default class AccountController extends BaseController {
 
         this.post("/getAccountInfo/:username", false, ValidationMiddaleware.getAccountInfo, this.getAccountInfo)
 
-
+        this.post("/logout",true,ValidationMiddaleware.noValidation,this.logout)
     }
 
     private static signUp(req, res) {
@@ -92,7 +92,7 @@ export default class AccountController extends BaseController {
 
         try {
             UserRepo.updateUsername(req.user.username, req.body.newUsername)
-            res.status(200).send({ msg: "successfully edited" })
+            res.status(200).send({ msg: "successfully" })
         } catch (e) {
             res.status(500).send({ err: e.message })
         }
@@ -102,8 +102,8 @@ export default class AccountController extends BaseController {
     private static editFullName(req, res) {
 
         try {
-            UserRepo.updateFullName(req.body.email, req.body.newFullName)
-            res.status(200).send({ msg: "successfully added" })
+            UserRepo.updateFullName(req.user.username, req.body.newFullName)
+            res.status(200).send({ msg: "successfully" })
         } catch (e) {
             res.status(500).send({ err: e.message })
         }
@@ -112,8 +112,8 @@ export default class AccountController extends BaseController {
     private static editBio(req, res) {
 
         try {
-            UserRepo.updateUsername(req.body.email, req.body.newBio)
-            res.status(200).send({ msg: "successfully added" })
+            UserRepo.updateBio(req.user.username, req.body.newBio)
+            res.status(200).send({ msg: "successfully" })
         } catch (e) {
             res.status(500).send({ err: e.message })
         }
@@ -161,5 +161,11 @@ export default class AccountController extends BaseController {
                 res.status(404).send("username not found")
             }
         })
+    }
+
+    private static logout(req, res) {
+        const token = req.headers["x-access-token"] || req.headers["x-auth-token"];
+        JWT.logout(token)
+        res.status(200).send({msg:"logout successfully"})
     }
 }

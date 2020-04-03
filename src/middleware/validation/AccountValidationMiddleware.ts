@@ -98,6 +98,6 @@ export default class AccountValidationMiddleware extends BaseValidationMiddalewa
             )
         }
     }
-
+    
     
 }

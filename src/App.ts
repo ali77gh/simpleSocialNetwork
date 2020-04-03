@@ -9,6 +9,7 @@ import AccountController from "./controllers/AccountController"
 
 //middlewares
 import LoggerMiddleware from "./middleware/LoggerMiddleware";
+import AuthMiddleware from "./middleware/AuthMiddleware"
 import bodyParser from "body-parser"
 
 
@@ -37,6 +38,7 @@ class Main{
         
         this.app.use(bodyParser.json())
         LoggerMiddleware.init(this.app);
+        AuthMiddleware.gcLoop()
     }
 
     private initRouter(){
