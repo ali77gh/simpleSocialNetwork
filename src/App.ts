@@ -4,8 +4,8 @@ import DB from "./data/repo/DB"
 
 //controllers
 import TestControllers from "./controllers/TestControllers";
-import LoggerControllers from "./controllers/LoggerControllers";
 import AccountController from "./controllers/AccountController"
+import AdminController from "./controllers/AdminController"
 
 //middlewares
 import LoggerMiddleware from "./middleware/LoggerMiddleware";
@@ -45,8 +45,8 @@ class Main{
 
         //these routes done without auth
         TestControllers.init(this.app);
-        LoggerControllers.init(this.app);
         AccountController.init(this.app);
+        AdminController.init(this.app)
     }
 
     private listen(){

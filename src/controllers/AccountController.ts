@@ -8,26 +8,27 @@ import BaseController from "./BaseController";
 import JWT from "../middleware/AuthMiddleware";
 
 
-export default class AccountController extends BaseController {
+export default class AccountController  {
 
     public static init(app) {
-        super.init(app, "/account")
 
-        this.post("/signup", false, ValidationMiddaleware.signup, this.signUp)
+        let baseController = new BaseController(app,"/account")
+        
+        baseController.post("/signup", false, ValidationMiddaleware.signup, this.signUp)
 
-        this.post("/login", false, ValidationMiddaleware.login, this.login)
+        baseController.post("/login", false, ValidationMiddaleware.login, this.login)
 
-        this.post("/editUsername", true, ValidationMiddaleware.editUsername, this.editUsername)
+        baseController.post("/editUsername", true, ValidationMiddaleware.editUsername, this.editUsername)
 
-        this.post("/editFullName", true, ValidationMiddaleware.editFullName, this.editFullName)
+        baseController.post("/editFullName", true, ValidationMiddaleware.editFullName, this.editFullName)
 
-        this.post("/editBio", true, ValidationMiddaleware.editBio, this.editBio)
+        baseController.post("/editBio", true, ValidationMiddaleware.editBio, this.editBio)
 
-        this.post("/editPassword", true, ValidationMiddaleware.editPassword, this.editPassword)
+        baseController.post("/editPassword", true, ValidationMiddaleware.editPassword, this.editPassword)
 
-        this.post("/getAccountInfo/:username", false, ValidationMiddaleware.getAccountInfo, this.getAccountInfo)
+        baseController.post("/getAccountInfo/:username", false, ValidationMiddaleware.getAccountInfo, this.getAccountInfo)
 
-        this.post("/logout",true,ValidationMiddaleware.noValidation,this.logout)
+        baseController.post("/logout", true, ValidationMiddaleware.noValidation, this.logout)
     }
 
     private static signUp(req, res) {
@@ -49,8 +50,10 @@ export default class AccountController extends BaseController {
                     break
 
                 case UserRepo.NOT_EXIST:
-                    UserRepo.add(user);
-                    res.status(200).send("sign up done successfully");
+                    UserRepo.add(user, (err) => {
+                        if (err) res.status(500).send({ err: err })
+                        res.status(200).send("sign up done successfully");
+                    });
                     break
             }
         })
@@ -58,7 +61,9 @@ export default class AccountController extends BaseController {
 
     private static login(req, res) {
 
-        UserRepo.getHashpassByUsername(req.body.username, (hashpassDb) => {
+        UserRepo.getHashpassByUsername(req.body.username, (err, hashpassDb) => {
+            
+            if (err) return res.status(500).send({ msg: err });
 
             if (hashpassDb) {
                 bcrypt.compare(req.body.password, hashpassDb, (err: Error, same: boolean) => {
@@ -88,47 +93,35 @@ export default class AccountController extends BaseController {
     }
 
     private static editUsername(req, res) {
-
-
-        try {
-            UserRepo.updateUsername(req.user.username, req.body.newUsername)
+        UserRepo.updateUsername(req.user.username, req.body.newUsername, (err) => {
+            if (err) res.status(500).send({ err: err })
             res.status(200).send({ msg: "successfully" })
-        } catch (e) {
-            res.status(500).send({ err: e.message })
-        }
-
+        })
     }
 
     private static editFullName(req, res) {
-
-        try {
-            UserRepo.updateFullName(req.user.username, req.body.newFullName)
+        UserRepo.updateFullName(req.user.username, req.body.newFullName, (err) => {
+            if (err) res.status(500).send({ err: err })
             res.status(200).send({ msg: "successfully" })
-        } catch (e) {
-            res.status(500).send({ err: e.message })
-        }
+        })
     }
 
     private static editBio(req, res) {
-
-        try {
-            UserRepo.updateBio(req.user.username, req.body.newBio)
+        UserRepo.updateBio(req.user.username, req.body.newBio, (err) => {
+            if (err) res.status(500).send({ err: err })
             res.status(200).send({ msg: "successfully" })
-        } catch (e) {
-            res.status(500).send({ err: e.message })
-        }
+        })
     }
 
     private static getAccountInfo(req, res) {
 
-        UserRepo.getWithUsername(req.params.username, (user: User) => {
-            if (user) {
-                user.hashpass = undefined
-                res.status(200).send(user);
-            }
-
-            else
-                res.status(404).send({ err: "user not found" })
+        UserRepo.getWithUsername(req.params.username, (err: string, user: User) => {
+            if (err)
+                return res.status(500).send({ err: err })
+            if (!user) 
+                return res.status(404).send({ err: "user not found" })
+                
+            res.status(200).send(user);
         })
     }
 
@@ -137,7 +130,9 @@ export default class AccountController extends BaseController {
         let oldPassword = req.body.oldPassword;
         let newpassword = req.body.newPassword;
 
-        UserRepo.getHashpassByUsername(username, (hashpass) => {
+        UserRepo.getHashpassByUsername(username, (err,hashpass) => {
+
+            if (err) return res.status(500).send({ msg: err });
 
             if (hashpass) {
                 bcrypt.compare(oldPassword, hashpass, (err: Error, same: boolean) => {
@@ -146,8 +141,11 @@ export default class AccountController extends BaseController {
 
                     if (same) {
                         let newHashPass = bcrypt.hashSync(newpassword, 10);
-                        UserRepo.updatePassword(username, newHashPass)
-                        res.status(200).send({msg: "password changed successfully"});
+                        UserRepo.updatePassword(username, newHashPass, (err) => {
+                            if (err) return res.status(500).send({ msg: err });
+                            res.status(200).send({ msg: "password changed successfully" });
+                        })
+                        
                     } else {
                         setTimeout(() => {
                             res.status(400)
@@ -166,6 +164,6 @@ export default class AccountController extends BaseController {
     private static logout(req, res) {
         const token = req.headers["x-access-token"] || req.headers["x-auth-token"];
         JWT.logout(token)
-        res.status(200).send({msg:"logout successfully"})
+        res.status(200).send({ msg: "logout successfully" })
     }
 }

@@ -1,4 +1,5 @@
 import Post from "../model/Post";
+import DBTools from "./DBTools";
 
 
 //                                          sql injection note
@@ -18,53 +19,86 @@ export default class PostRepo {
 
         this.db = db;
 
-        this.db.exec(`
+        this.db.run(`
         create table IF NOT EXISTS ${this.tableName} (
-            id             text not null,
+            id             text not null UNIQUE,
             owner          text not null,
             title          text not null,
             content        text not null,
             time           integer
         );
-        `);
+        `, (err) => {
+            if (err) {
+                return console.error(err.message);
+            }
+            this.initStatments();
+            DBTools.createIndex(db, this.tableName, "id", "owner");
+        });
     }
 
-    static add(post: Post): void {
 
-        const insert = this.db.prepare(`INSERT INTO ${this.tableName} 
-        (id, owner, title, content, time) VALUES (?, ?, ?, ?, ?)`);
+    private static stm = {
 
-        insert.run(post.id, post.owner, post.title, post.content, post.time)
-
+        insert: undefined,
+        updateTitle: undefined,
+        updateContent: undefined,
+        delete: undefined,
+        getWithId: undefined,
+        getWithOwner: undefined,
+        getAll: undefined
     }
 
-    static updateTitle(id: string, newTitle: string): void {
-        this.db.prepare(`UPDATE ${this.tableName} 
-            SET title = ? 
-            WHERE id = ?;
-            `).run(newTitle, id);
+    private static initStatments() {
+        //generate binaries
+        this.stm.insert = this.db.prepare(`INSERT INTO ${this.tableName} (id, owner, title, content, time) VALUES (?, ?, ?, ?, ?)`);
+        this.stm.updateTitle = this.db.prepare(`UPDATE ${this.tableName} SET title = ? WHERE id = ?;`)
+        this.stm.updateContent = this.db.prepare(`UPDATE ${this.tableName} SET content = ? WHERE id = ?;`)
+        this.stm.delete = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?;`)
+        this.stm.getWithId = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE id = ?;`)
+        this.stm.getWithOwner = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = ?;`)
+        this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
     }
 
-    static updateContent(id: string, newContent: string): void {
-        this.db.prepare(`UPDATE ${this.tableName} 
-            SET content = ? 
-            WHERE id = ?;
-            `).run(newContent, id)
+    static add(post: Post, finished: (err: string) => void): void {
+        this.stm.insert.run([post.id, post.owner, post.title, post.content, post.time], (err) => {
+            finished(err);
+        })
     }
 
-    static delete(id: string): void {
-        this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?;`).run(id);
+
+    static updateTitle(id: string, newTitle: string, finished: (err: string) => void): void {
+        this.stm.updateTitle.run([newTitle, id], (err) => {
+            finished(err)
+        })
     }
 
-    static getWithId(id: string, cb: (users: Post) => void): void {
-        cb(this.db.prepare(`SELECT * FROM ${this.tableName} WHERE id = ?;`).get(id));
+    static updateContent(id: string, newContent: string, finished: (err: string) => void): void {
+        this.stm.updateContent.run([newContent, id], (err) => {
+            finished(err)
+        })
     }
 
-    static getWithOwner(owner: string, cb: (users: Post[]) => void): void {
-        cb(this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = ?;`).all(owner));
+    static delete(id: string, finished: (err: string) => void): void {
+        this.stm.delete.run([id], (err) => {
+            finished(err)
+        })
     }
 
-    static getAll(cb: (users: Post[]) => void): void {
-        cb(this.db.prepare(`SELECT * FROM ${this.tableName}`).all());
+    static getWithId(id: string, finished: (err: string, post: Post) => void): void {
+        this.stm.getWithId.get([id], (err, row) => {
+            finished(err, row)
+        })
+    }
+
+    static getWithOwner(owner: string, finished: (err: string, users: Post[]) => void): void {
+        this.stm.getWithOwner.getAll([owner], (err, row) => {
+            finished(err, row)
+        })
+    }
+
+    static getAll(finished: (err: string, users: Post[]) => void): void {
+        this.stm.getWithOwner.getAll([], (err, row) => {
+            finished(err, row)
+        })
     }
 }

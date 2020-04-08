@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import Joi from "joi"
 
 // Version 4(random) - Created from cryptographically - strong random values
 // Version 1(timestamp) - Created from the system clock(plus random values)
@@ -31,21 +30,5 @@ export default class Post {
         this.content = content;
         this.time = new Date().getTime()
     }
-
-    static validate(Userobj): string | undefined {
-        const schema = {
-            owner: Joi.string().min(5).max(255).required().email(),
-            title: Joi.string().min(5).max(255).required(),
-            content: Joi.string().min(8).max(2000).required(),
-            time: Joi.number()
-        };
-
-        const { error } = Joi.validate(Userobj, schema);
-        if (error)
-            return error.details[0].message;
-        else
-            return undefined;
-    }
-
 
 }

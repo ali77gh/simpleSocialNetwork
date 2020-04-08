@@ -1,22 +1,29 @@
 
 import JWT from "./../middleware/AuthMiddleware";
 
-export default class BaseController{
+export default class BaseController {
 
-    private static _app;
-    private static _prepath: string;
-    
+    private  _app;
+    private  _prepath: string;
 
-    static init(app,prepath) {
+    public constructor(app, prepath: string) {
         this._app = app;
         this._prepath = prepath
     }
 
-    protected static post(path: string, needAuth: boolean, validationMiddleware: (req, res, next) => void, cb: (req, res) => void) {
+    public post(path: string, needAuth: boolean, validationMiddleware: (req, res, next) => void, cb: (req, res) => void) {
         path = this._prepath + path
         if (needAuth)
             this._app.post(path, validationMiddleware, JWT.middleware, cb);
         else
             this._app.post(path, validationMiddleware, cb);
+    }
+
+    public get(path: string, needAuth: boolean, validationMiddleware: (req, res, next) => void, cb: (req, res) => void) {
+        path = this._prepath + path
+        if (needAuth)
+            this._app.get(path, validationMiddleware, JWT.middleware, cb);
+        else
+            this._app.get(path, validationMiddleware, cb);
     }
 }

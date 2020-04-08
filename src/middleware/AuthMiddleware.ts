@@ -5,7 +5,7 @@ export default class JWT{
 
     private static get jwtKey() { return "masalan_alaki_;)" }
 
-    private static get gcLoopTime() { return 1000 * 60 * 10 } // 10 minutes
+    private static get gcLoopTime() { return 1000 * 60 * 60 } // 1 hour
     private static get expireTime(){ return "1d" } // 1 day
 
     private static blackListTokens = []; //{exp number ,token string }
@@ -13,14 +13,11 @@ export default class JWT{
     public static gcLoop() {
 
         setInterval(() => {
-            let lastLen = JWT.blackListTokens.length
             for (let i of JWT.blackListTokens) {
                 if (i.exp < new Date().getTime()) {
                     JWT.blackListTokens.splice(JWT.blackListTokens.indexOf(i), 1);
                 }
             }
-            let nowLen = JWT.blackListTokens.length
-            if(lastLen !== nowLen) console.log("something deleted")
         },JWT.gcLoopTime)
     }
 
