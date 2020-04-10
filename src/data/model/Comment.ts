@@ -2,8 +2,8 @@
 
 export default class Comment {
 
-
-    who: string;
+    id: string
+    who: string; //userId
     postID: string;
     msg: string;
 

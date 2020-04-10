@@ -1,5 +1,5 @@
 import User from "../model/User";
-import DBTools from "./DBTools";
+import DBTools from "../DBTools";
 
 
 //                                          sql injection note
@@ -21,16 +21,16 @@ export default class UserRepo {
 
         this.db.run(`create table IF NOT EXISTS ${this.tableName} (
             email             text not null UNIQUE,
-            username          text not null UNIQUE,
+            username          text not null PRIMARY KEY,
             hashpass          text not null,
             fullname          text not null,
             bio               text not null
         );`, (err) => {
             if (err) {
-                return console.error(err.message);
+                return console.error(this.tableName + err.message);
             }
             this.initStatments();
-            DBTools.createIndex(db,this.tableName,"email", "username");
+            DBTools.createIndex(db,this.tableName, "username");
         });
     }
     // why?
@@ -46,7 +46,8 @@ export default class UserRepo {
         getWithUsername: undefined,
         getHashPass: undefined,
         getAll: undefined,
-        checkExist: undefined
+        checkExist: undefined,
+        searchByUsername : undefined
     }
 
     private static initStatments() {
@@ -61,16 +62,11 @@ export default class UserRepo {
         this.stm.getHashPass = this.db.prepare(`SELECT hashpass FROM ${this.tableName} WHERE username = ?;`)
         this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
         this.stm.checkExist = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ? or email = ?;`);
+        this.stm.searchByUsername = this.db.prepare(`SELECT * from ${this.tableName} WHERE username LIKE ? `)
     }
 
     public static add(user: User, finished: (err: string) => void): void {
         this.stm.insert.run([user.email, user.username, user.hashpass, user.fullName, user.bio], (err) => {
-            finished(err);
-        })
-    }
-
-    public static updateUsername(username: string, newUsername: string, finished: (err: string) => void): void {
-        this.stm.updateUsername.run([newUsername, username], (err) => {
             finished(err);
         })
     }
@@ -101,6 +97,7 @@ export default class UserRepo {
 
     public static getWithUsername(username: string, finished: (err: string, users: User) => void): void {
         this.stm.getWithUsername.get([username], (err, row) => {
+            row.hashpass = undefined
             finished(err, row);
         })
     }
@@ -138,8 +135,19 @@ export default class UserRepo {
     }
 
     public static getAll(cb: (err: string, users: User[]) => void): void {
-        this.stm.getAll([], (err, rows) => {
+        this.stm.getAll.all([], (err, rows) => {
+            if (err) return cb(err, undefined)
+            for (let i of rows) i.hashpass = undefined
             cb(err, rows)
+        })
+    }
+
+    public static searchByUsername(username: string, cb: (err: string, users: string[]) => void): void{
+        username = "%" + username.replace(/ /g, "%") + "%";
+        this.stm.searchByUsername.all([username], (err, rows) => {
+            if (err) return cb(err, undefined)
+            for (let i of rows) i.hashpass = undefined
+            cb(err,rows)
         })
     }
 }

@@ -1,11 +1,12 @@
 import express from 'express';
 
-import DB from "./data/repo/DB"
+import DB from "./data/DB"
 
 //controllers
 import TestControllers from "./controllers/TestControllers";
 import AccountController from "./controllers/AccountController"
 import AdminController from "./controllers/AdminController"
+import PostContoller from "./controllers/PostController"
 
 //middlewares
 import LoggerMiddleware from "./middleware/LoggerMiddleware";
@@ -46,7 +47,8 @@ class Main{
         //these routes done without auth
         TestControllers.init(this.app);
         AccountController.init(this.app);
-        AdminController.init(this.app)
+        AdminController.init(this.app);
+        PostContoller.init(this.app);
     }
 
     private listen(){

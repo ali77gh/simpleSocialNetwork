@@ -2,7 +2,7 @@
 
 export default class Like{
     
-    who: string
+    who: string; // userId
     postID: string
 
     constructor(who: string, postId: string) {

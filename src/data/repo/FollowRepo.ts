@@ -1,5 +1,5 @@
 import Follow from "../model/Follow";
-
+import DBTools from "../DBTools";
 
 //                                          sql injection note
 
@@ -18,49 +18,71 @@ export default class FollowRepo {
 
         this.db = db;
 
-        this.db.exec(`
-        create table IF NOT EXISTS ${this.tableName} (
+        this.db.run(`create table IF NOT EXISTS ${this.tableName} (
             follower          text not null,
-            followed          text not null
+            followed          text not null,
+            PRIMARY KEY (follower,followed),
+            FOREIGN KEY(followed) REFERENCES user(username)
         );
-        `);
+        `, (err) => {
+            if (err) {
+                return console.error(this.tableName + err.message);
+            }
+            this.initStatments();
+            DBTools.createIndex(db, this.tableName, "follower", "followed");
+        });
     }
 
-    static follow(follow: Follow): void {
+    private static stm = {
+        follow: undefined,
+        unfollow: undefined,
+        getFollowers: undefined,
+        getFollowing: undefined,
+    }
 
-        const insert = this.db.prepare(`INSERT INTO ${this.tableName} 
-        (follower, followed) VALUES (?, ?)`);
+    private static initStatments() {
+        //generate binaries
+        this.stm.follow = this.db.prepare(`INSERT INTO ${this.tableName} (follower, followed) VALUES (?, ?)`);
+        this.stm.unfollow = this.db.prepare(`DELETE FROM ${this.tableName} WHERE follower = ? AND followed = ?;`)
+        this.stm.getFollowers = this.db.prepare(`SELECT follower FROM ${this.tableName} WHERE followed = ?;`)
+        this.stm.getFollowing = this.db.prepare(`SELECT followed FROM ${this.tableName} WHERE follower = ?;`)
+    }
 
-        insert.run(follow.follower, follow.followed)
+    static follow(follow: Follow, finished: (err: string) => void): void {
+        this.stm.follow.run([follow.follower, follow.followed], (err) => {
+            finished(err)
+        })
+    }
+
+    static unfollow(follow: Follow, finished: (err: string) => void): void {
+        this.stm.unfollow.run([follow.follower, follow.followed], (err) => {
+            finished(err)
+        })
+    }
+
+    static getFollowersByUsername(username: string, finished: (err: string, user: string[]) => void): void {
+
+        this.stm.getFollowers.all([username], (err, rows:Follow[]) => {
+            if (err) return finished(err, undefined)
+
+            let tmp: string[] = []
+            for (let i of rows) {
+                tmp.push(i.follower)
+            }
+            finished(undefined,tmp);
+        })
 
     }
 
-    static unfollow(follow: Follow): void {
-        this.db.prepare(`DELETE FROM ${this.tableName} WHERE follower = ? AND followed = ?;`).run(follow.follower,follow.followed);
-    }
+    static getFollowingByUsername(username: string, finished: (err: string, user: string[]) => void): void {
+        this.stm.getFollowing.all([username], (err, rows: Follow[]) => {
+            if (err) return finished(err, undefined)
 
-    static getFollowers(email: string, cb: (users: string[]) => void): void {
-
-        let follows: Follow[] = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE followed = ?;`).get(email)
-
-        let followers : string[] = []
-        for (let i of follows) {
-            followers.push(i.follower)
-        }
-        cb(followers);
-    }
-
-    static getFollowing(email: string, cb: (users: string[]) => void): void {
-        let follows: Follow[] = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE follower = ?;`).get(email)
-
-        let followings: string[] = []
-        for (let i of follows) {
-            followings.push(i.followed)
-        }
-        cb(followings);
-    }
-
-    static getAll(cb: (follows: Follow[]) => void): void {
-        cb(this.db.prepare(`SELECT * FROM ${this.tableName}`).all());
+            let tmp: string[] = []
+            for (let i of rows) {
+                tmp.push(i.followed)
+            }
+            finished(undefined, tmp);
+        })
     }
 }

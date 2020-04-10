@@ -44,6 +44,14 @@ export default class AccountValidationMiddleware extends BaseValidationMiddalewa
         newPassword: User.joi.password
     };
 
+    private static _justUsername_B = {
+        username: User.joi.username,
+    };
+
+    private static _searchByUsername_B = {
+        username: User.joi.fullName, // space allowed in searching
+    };
+
 
     private static _getAccountInfo_P = {
         username: User.joi.username
@@ -98,6 +106,19 @@ export default class AccountValidationMiddleware extends BaseValidationMiddalewa
             )
         }
     }
-    
+    static get justUsername() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                this._justUsername_B, null, null
+            )
+        }
+    }
+    static get searchByUsername() {
+        return (req, res, next) => {
+            super.handleError(req, res, next,
+                this._searchByUsername_B, null, null
+            )
+        }
+    }
     
 }

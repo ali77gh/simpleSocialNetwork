@@ -16,7 +16,7 @@ export default class Post {
         this._id = id;
     }
 
-    owner: string; // username
+    owner: string; // userId
 
     title: string;
     content: string;

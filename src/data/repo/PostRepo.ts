@@ -1,5 +1,5 @@
 import Post from "../model/Post";
-import DBTools from "./DBTools";
+import DBTools from "../DBTools";
 
 
 //                                          sql injection note
@@ -21,15 +21,16 @@ export default class PostRepo {
 
         this.db.run(`
         create table IF NOT EXISTS ${this.tableName} (
-            id             text not null UNIQUE,
+            id             text not null PRIMARY KEY,
             owner          text not null,
             title          text not null,
             content        text not null,
-            time           integer
+            time           integer,
+            FOREIGN KEY (owner) REFERENCES user (username) 
         );
         `, (err) => {
             if (err) {
-                return console.error(err.message);
+                return console.error(this.tableName + err.message);
             }
             this.initStatments();
             DBTools.createIndex(db, this.tableName, "id", "owner");

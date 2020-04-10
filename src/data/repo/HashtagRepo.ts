@@ -1,4 +1,5 @@
 import Hashtag from "../model/Hashtag";
+import DBTools from "../DBTools";
 
 
 //                                          sql injection note
@@ -18,12 +19,29 @@ export default class HashtagRepo {
 
         this.db = db;
 
-        this.db.exec(`
-        create table IF NOT EXISTS ${this.tableName} (
+        this.db.run(`create table IF NOT EXISTS ${this.tableName} (
             postId          text not null,
-            hashtagName     text not null
-        );
-        `);
+            hashtagName     text not null,
+            PRIMARY KEY(hashtagName,postId),
+            FOREIGN KEY (postId) REFERENCES post (id)
+        );`, (err) => {
+            if (err) {
+                return console.error(this.tableName + err.message);
+            }
+            this.initStatments();
+            DBTools.createIndex(db, this.tableName, "postId", "hashtagName");
+        });
+    }
+
+    private static stm = {
+
+        insert: undefined,
+    }
+
+    private static initStatments() {
+        //generate binaries
+        this.stm.insert = this.db.prepare(`INSERT INTO ${this.tableName} (postId, hashtagName) VALUES (?, ?)`);
+
     }
 
     static setHashtag(hashtag: Hashtag): void {
@@ -31,7 +49,7 @@ export default class HashtagRepo {
         const insert = this.db.prepare(`INSERT INTO ${this.tableName} 
         (postId, hashtagName) VALUES (?, ?)`);
 
-        insert.run(hashtag.postId,hashtag.hashtagName)
+        insert.run(hashtag.postId, hashtag.hashtagName)
 
     }
 

@@ -5,7 +5,7 @@ import fs from "fs";
 
 export default class AdminController  {
 
-    private static logFile = "./logs/req.log" 
+    private static logFile = "./data/req.log" 
     private static databaseFile = "./data/main.db"
 
     public static init(app) {
@@ -15,6 +15,8 @@ export default class AdminController  {
         baseController.post("/getLogs", true, AccountValidationMiddleware.noValidation, this.getLogs)
         baseController.post("/clearLogs", true, AccountValidationMiddleware.noValidation, this.clearLogs)
         baseController.post("/backupDatabase", true, AccountValidationMiddleware.noValidation, this.backupDatabase)
+        
+        
     }
 
     private static getLogs(req, res) {

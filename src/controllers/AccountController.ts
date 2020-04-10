@@ -6,29 +6,36 @@ import User from "../data/model/User";
 import UserRepo from "../data/repo/UserRepo";
 import BaseController from "./BaseController";
 import JWT from "../middleware/AuthMiddleware";
+import FollowRepo from "../data/repo/FollowRepo";
+import Follow from "../data/model/Follow";
+import { string } from "joi";
 
 
 export default class AccountController  {
 
     public static init(app) {
 
-        let baseController = new BaseController(app,"/account")
+        let baseController = new BaseController(app, "/account")
         
+        // account CRUD
         baseController.post("/signup", false, ValidationMiddaleware.signup, this.signUp)
-
-        baseController.post("/login", false, ValidationMiddaleware.login, this.login)
-
-        baseController.post("/editUsername", true, ValidationMiddaleware.editUsername, this.editUsername)
-
         baseController.post("/editFullName", true, ValidationMiddaleware.editFullName, this.editFullName)
-
         baseController.post("/editBio", true, ValidationMiddaleware.editBio, this.editBio)
-
         baseController.post("/editPassword", true, ValidationMiddaleware.editPassword, this.editPassword)
-
         baseController.post("/getAccountInfo/:username", false, ValidationMiddaleware.getAccountInfo, this.getAccountInfo)
+        baseController.post("/searchByUsername", false, ValidationMiddaleware.searchByUsername, this.searchByUsername)
 
+        // Security actoins
         baseController.post("/logout", true, ValidationMiddaleware.noValidation, this.logout)
+        baseController.post("/login", false, ValidationMiddaleware.login, this.login)
+        // TODO verify email
+        // TODO forgot password with email
+
+        // follow CRUD
+        baseController.post("/follow", true, ValidationMiddaleware.justUsername, this.follow)
+        baseController.post("/unfollow", true, ValidationMiddaleware.justUsername, this.unfollow)
+        baseController.post("/getFollowers", false, ValidationMiddaleware.justUsername, this.getFollowers)
+        baseController.post("/getFollowings", false, ValidationMiddaleware.justUsername, this.getFollowings)
     }
 
     private static signUp(req, res) {
@@ -89,13 +96,6 @@ export default class AccountController  {
                 res.status(404).send("username not found")
             }
 
-        })
-    }
-
-    private static editUsername(req, res) {
-        UserRepo.updateUsername(req.user.username, req.body.newUsername, (err) => {
-            if (err) res.status(500).send({ err: err })
-            res.status(200).send({ msg: "successfully" })
         })
     }
 
@@ -165,5 +165,37 @@ export default class AccountController  {
         const token = req.headers["x-access-token"] || req.headers["x-auth-token"];
         JWT.logout(token)
         res.status(200).send({ msg: "logout successfully" })
+    }
+
+    private static searchByUsername(req, res) {
+        UserRepo.searchByUsername(req.body.username, (err: string, users: string[]) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send(users)
+        })
+    }
+
+    private static follow(req, res) {
+        FollowRepo.follow(new Follow(req.user.username, req.body.username), (err) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send({msg:"done"})
+        })
+    }
+    private static unfollow(req, res) {
+        FollowRepo.unfollow(new Follow(req.user.username, req.body.username), (err) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send({ msg: "done" })
+        })
+    }
+    private static getFollowers(req, res) {
+        FollowRepo.getFollowersByUsername(req.body.username, (err: string, users: string[]) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send(users)
+        })
+    }
+    private static getFollowings(req, res) {
+        FollowRepo.getFollowingByUsername(req.body.username, (err: string, users: string[]) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send(users)
+        })
     }
 }
