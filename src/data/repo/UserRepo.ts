@@ -62,7 +62,7 @@ export default class UserRepo {
         this.stm.getHashPass = this.db.prepare(`SELECT hashpass FROM ${this.tableName} WHERE username = ?;`)
         this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
         this.stm.checkExist = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ? or email = ?;`);
-        this.stm.searchByUsername = this.db.prepare(`SELECT * from ${this.tableName} WHERE username LIKE ? `)
+        this.stm.searchByUsername = this.db.prepare(`SELECT * from ${this.tableName} WHERE username LIKE ? LIMIT 10 OFFSET ?;`)
     }
 
     public static add(user: User, finished: (err: string) => void): void {
@@ -142,9 +142,9 @@ export default class UserRepo {
         })
     }
 
-    public static searchByUsername(username: string, cb: (err: string, users: string[]) => void): void{
+    public static searchByUsername(username: string,offset, cb: (err: string, users: string[]) => void): void{
         username = "%" + username.replace(/ /g, "%") + "%";
-        this.stm.searchByUsername.all([username], (err, rows) => {
+        this.stm.searchByUsername.all([username,offset], (err, rows) => {
             if (err) return cb(err, undefined)
             for (let i of rows) i.hashpass = undefined
             cb(err,rows)

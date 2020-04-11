@@ -1,5 +1,5 @@
 
-import BaseValidationMiddaleware from "./BaseValidationMiddleware"
+import BaseValidationMiddaleware from "./BaseValidationMiddleware";
 import User from "../../data/model/User";
 
 export default class AccountValidationMiddleware extends BaseValidationMiddaleware {
@@ -50,6 +50,7 @@ export default class AccountValidationMiddleware extends BaseValidationMiddalewa
 
     private static _searchByUsername_B = {
         username: User.joi.fullName, // space allowed in searching
+        offset: BaseValidationMiddaleware.globalJois.offset,
     };
 
 
