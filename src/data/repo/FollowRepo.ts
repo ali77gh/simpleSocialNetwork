@@ -38,6 +38,8 @@ export default class FollowRepo {
         unfollow: undefined,
         getFollowers: undefined,
         getFollowing: undefined,
+        getFollowersCount: undefined,
+        getFollowingCount: undefined,
     }
 
     private static initStatments() {
@@ -46,6 +48,8 @@ export default class FollowRepo {
         this.stm.unfollow = this.db.prepare(`DELETE FROM ${this.tableName} WHERE follower = ? AND followed = ?;`)
         this.stm.getFollowers = this.db.prepare(`SELECT follower FROM ${this.tableName} WHERE followed = ?;`)
         this.stm.getFollowing = this.db.prepare(`SELECT followed FROM ${this.tableName} WHERE follower = ?;`)
+        this.stm.getFollowersCount = this.db.prepare(`SELECT count(followed) FROM ${this.tableName} WHERE followed = ?;`)
+        this.stm.getFollowingCount = this.db.prepare(`SELECT count(follower) FROM ${this.tableName} WHERE follower = ?;`)
     }
 
     static follow(follow: Follow, finished: (err: string) => void): void {
@@ -83,6 +87,22 @@ export default class FollowRepo {
                 tmp.push(i.followed)
             }
             finished(undefined, tmp);
+        })
+    }
+
+    static getFollowersCountByUsername(username: string, finished: (err: string, user: number) => void): void {
+
+        this.stm.getFollowersCount.get([username], (err, row) => {
+            if (err) return finished(err, undefined)
+            finished(undefined, row["count(followed)"]);
+        })
+
+    }
+    
+    static getFollowingCountByUsername(username: string, finished: (err: string, user: number) => void): void {
+        this.stm.getFollowingCount.get([username], (err, row) => {
+            if (err) return finished(err, undefined)
+            finished(undefined, row["count(follower)"]);
         })
     }
 }

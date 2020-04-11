@@ -36,6 +36,8 @@ export default class AccountController  {
         baseController.post("/unfollow", true, ValidationMiddaleware.justUsername, this.unfollow)
         baseController.post("/getFollowers", false, ValidationMiddaleware.justUsername, this.getFollowers)
         baseController.post("/getFollowings", false, ValidationMiddaleware.justUsername, this.getFollowings)
+        baseController.post("/countFollowers", false, ValidationMiddaleware.justUsername, this.getFollowersCount)
+        baseController.post("/countFollowings", false, ValidationMiddaleware.justUsername, this.getFollowingsCount)
     }
 
     private static signUp(req, res) {
@@ -196,6 +198,18 @@ export default class AccountController  {
         FollowRepo.getFollowingByUsername(req.body.username, (err: string, users: string[]) => {
             if (err) return res.status(500).send(err)
             res.status(200).send(users)
+        })
+    }
+    private static getFollowersCount(req, res) {
+        FollowRepo.getFollowersCountByUsername(req.body.username, (err: string, usersCount: number) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send({ usersCount: usersCount })
+        })
+    }
+    private static getFollowingsCount(req, res) {
+        FollowRepo.getFollowingCountByUsername(req.body.username, (err: string, usersCount: number) => {
+            if (err) return res.status(500).send(err)
+            res.status(200).send({ usersCount: usersCount })
         })
     }
 }
