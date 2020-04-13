@@ -10,7 +10,7 @@ import DBTools from "../DBTools";
 
 export default class FollowRepo {
 
-    private static tableName = "follow"
+    public static get tableName() { return "follow" }  
 
     private static db;
 

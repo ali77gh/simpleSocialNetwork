@@ -37,18 +37,16 @@ export default class User {
             userObj.fullName,
             userObj.bio
         );
-    } 
-
-    private static _joi = {
-        email: Joi.string().min(5).max(60).required().email(),
-        username: Joi.string().min(5).max(50).required().regex(/^[a-zA-Z0-9]+([_]?[a-zA-Z0-9])*$/),
-        password: Joi.string().min(8).max(30).required(),
-        fullName: Joi.string().min(3).max(50).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
-        bio: Joi.string().min(3).max(500).required()
-    }
+    }  
 
     public static get joi() {
-        return this._joi;
+        return {
+            email: Joi.string().min(5).max(60).required().email(),
+            username: Joi.string().min(5).max(50).required().regex(/^[a-zA-Z0-9]+([_]?[a-zA-Z0-9])*$/),
+            password: Joi.string().min(8).max(30).required(),
+            fullName: Joi.string().min(3).max(50).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
+            bio: Joi.string().min(3).max(500).required()
+        };
     }
 
 }
