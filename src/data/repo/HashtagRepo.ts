@@ -2,16 +2,9 @@ import Hashtag from "../model/Hashtag";
 import DBTools from "../DBTools";
 
 
-//                                          sql injection note
-
-// SQLite protects you against SQL injections if you specify user - supplied data as part of the params rather than stringing together an SQL query:
-// BAD: db.prepare("INSERT INTO foo VALUES(" + variable + ")");
-// GOOD: db.prepare("INSERT INTO foo VALUES (?)", variable);
-// By using the placeholder ?, SQLite automatically treats the data as input data and it does not interfere with parsing the actual SQL statement.
-
 export default class HashtagRepo {
 
-    private static tableName = "hashtag"
+    public static get tableName() { return "hashtag" }
 
     private static db;
 

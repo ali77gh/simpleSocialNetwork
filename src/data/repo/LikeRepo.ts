@@ -1,10 +1,9 @@
 import DBTools from "../DBTools";
 
 
-
 export default class LikeRepo {
 
-    private static tableName = "like"
+    public static get tableName() { return "like" }
 
     private static db;
 

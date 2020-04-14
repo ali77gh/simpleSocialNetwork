@@ -5,26 +5,26 @@ import Joi from "joi";
 export default class BaseValidationMiddaleware{
 
 
-    protected static handleError(req, res, next, bodySchema, headerSchema, paramSchema) {
+    protected static handleError(req, res, next, schema) {
 
-        if (bodySchema) {
-            const { error } = Joi.validate(req.body, bodySchema);
+        if (schema.body) {
+            const { error } = Joi.validate(req.body, schema.body);
             if (error)
                 return res.status(400).send(
                     { err: `${error} in body (json form)` }
                 );
         }
 
-        if (headerSchema) {
-            const { error } = Joi.validate(req.header, headerSchema);
+        if (schema.header) {
+            const { error } = Joi.validate(req.header, schema.header);
             if (error)
                 return res.status(400).send(
                     { err: `${error} in header` }
                 );
         }
 
-        if (paramSchema) {
-            const { error } = Joi.validate(req.params, paramSchema);
+        if (schema.param) {
+            const { error } = Joi.validate(req.params, schema.param);
             if (error)
                 return res.status(400).send(
                     { err: `${error} in params` }
@@ -37,7 +37,9 @@ export default class BaseValidationMiddaleware{
     public static get noValidation() {
         return (req, res, next) => {
             this.handleError(req, res, next,
-                null, null, null
+                {
+                    //empty
+                }
             )
         }
     }

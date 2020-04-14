@@ -8,7 +8,6 @@ import BaseController from "./BaseController";
 import JWT from "../middleware/AuthMiddleware";
 import FollowRepo from "../data/repo/FollowRepo";
 import Follow from "../data/model/Follow";
-import { string } from "joi";
 
 
 export default class AccountController  {

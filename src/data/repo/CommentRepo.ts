@@ -1,10 +1,9 @@
 import DBTools from "../DBTools";
 
 
-
 export default class CommentRepo {
 
-    private static tableName = "comment"
+    public static get tableName() { return "comment" }  
 
     private static db;
 

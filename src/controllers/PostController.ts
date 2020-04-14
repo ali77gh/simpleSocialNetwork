@@ -18,24 +18,26 @@ export default class PostController{
         baseController.post("/getSomeOnesPosts", false, ValidationMiddaleware.getSomeonesPosts, this.getSomeonesPosts)// TODO TEST PLZ
         baseController.post("/countSomeOnesPosts", false, ValidationMiddaleware.countSomeonePosts, this.countSomeonesPosts)// TODO TEST PLZ
         baseController.post("/getMyWallWithOffset", true, ValidationMiddaleware.getMyWallWithOffset, this.getMyWallWithOffset)// TODO TEST PLZ 
-        baseController.post("/countMyWall", true, ValidationMiddaleware.noValidation, this.countMyWall)//  TODO TEST PLZ
-        // baseController.post("/searchByPostTitle", false, ValidationMiddaleware., this.)
+        baseController.post("/countMyWall", true, ValidationMiddaleware.noValidation, this.countMyWall)// TODO TEST PLZ
 
         // // comment CRUD
         // baseController.post("/newComment", false, ValidationMiddaleware., this.)
         // baseController.post("/deleteComment", false, ValidationMiddaleware., this.)
-        // baseController.post("/getCommentsByPost", false, ValidationMiddaleware., this.)
+        // baseController.post("/getCommentsByPostWithOffset", false, ValidationMiddaleware., this.)
+        // baseController.post("/countCommentsByPost", false, ValidationMiddaleware., this.)
 
         // // hashtag CRUD
-        // baseController.post("/addHashtag", false, ValidationMiddaleware., this.)
-        // baseController.post("/deleteHashtag", false, ValidationMiddaleware., this.)
+        // baseController.post("/addHashtags", false, ValidationMiddaleware., this.)
+        // baseController.post("/deleteHashtags", false, ValidationMiddaleware., this.)
         // baseController.post("/getPostHashtags", false, ValidationMiddaleware., this.)
         // baseController.post("/getHashtagPostsWithOffset", false, ValidationMiddaleware., this.)
+        // baseController.post("/countHashtagPosts", false, ValidationMiddaleware., this.)
         
         // // like CRUD
         // baseController.post("/newLike", false, ValidationMiddaleware., this.)
         // baseController.post("/deleteLike", false, ValidationMiddaleware., this.)
-        // baseController.post("/getLikesByPost", false, ValidationMiddaleware., this.)
+        // baseController.post("/getLikesByPostOffset", false, ValidationMiddaleware., this.)
+        // baseController.post("/countLikesByPost", false, ValidationMiddaleware., this.)
     }
 
 
