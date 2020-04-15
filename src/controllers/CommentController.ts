@@ -8,10 +8,10 @@ export default class CommentController {
         let baseController = new BaseController(app, "/comment")
 
         // comment CRUD
-        baseController.post("/newComment", false, ValidationMiddaleware., this.newComment)
-        baseController.post("/deleteComment", false, ValidationMiddaleware., this.deleteComment)
-        baseController.post("/getCommentsByPostWithOffset", false, ValidationMiddaleware., this.getCommentsByPostWithOffset)
-        baseController.post("/countCommentsByPost", false, ValidationMiddaleware., this.countCommentsByPost)
+        baseController.post("/newComment", true, ValidationMiddaleware.newComment, this.newComment)
+        baseController.post("/deleteComment", true, ValidationMiddaleware.deleteComment, this.deleteComment)
+        baseController.post("/getCommentsByPostWithOffset", false, ValidationMiddaleware.getCommentsByPostWithOffset, this.getCommentsByPostWithOffset)
+        baseController.post("/countCommentsByPost", false, ValidationMiddaleware.countCommentsByPost, this.countCommentsByPost)
     }
 
     private static newComment(req, res) {
@@ -19,11 +19,11 @@ export default class CommentController {
     }
 
     private static deleteComment(req, res) {
-
+        //TODO check if comment owner is deleting
     }
 
     private static getCommentsByPostWithOffset(req, res) {
-
+        //TODO watch offset
     }
 
     private static countCommentsByPost(req, res) {

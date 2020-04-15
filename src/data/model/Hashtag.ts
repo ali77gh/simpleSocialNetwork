@@ -21,6 +21,6 @@ export default class Hashtag{
 
     public static joi = {
         postId: Post.joi.id,
-        hashtagName: Joi.string().min(3).max(30\).required()
+        hashtagName: Joi.string().min(3).max(30).required()
     }
 }

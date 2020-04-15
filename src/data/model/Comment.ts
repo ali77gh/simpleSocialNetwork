@@ -34,6 +34,7 @@ export default class Comment {
     }
 
     public static joi = {
+        id: Joi.string().min(35).max(37).required(),// uuid length is 36
         who: User.joi.username,
         postId: Post.joi.id,
         msg: Joi.string().min(8).max(60).required(),

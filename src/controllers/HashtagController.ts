@@ -9,18 +9,19 @@ export default class HashtagController {
 
 
         // hashtag CRUD
-        baseController.post("/addHashtags", false, ValidationMiddaleware., this.addHashtags)
-        baseController.post("/deleteHashtags", false, ValidationMiddaleware., this.deleteHashtags)
-        baseController.post("/getPostHashtags", false, ValidationMiddaleware., this.getPostHashtags)
-        baseController.post("/getHashtagPostsWithOffset", false, ValidationMiddaleware., this.getHashtagPostsWithOffset)
-        baseController.post("/countHashtagPosts", false, ValidationMiddaleware., this.countHashtagPosts)
+        baseController.post("/addHashtags", true, ValidationMiddaleware.addHashtags, this.addHashtags)
+        baseController.post("/deleteHashtags", true, ValidationMiddaleware.deleteHashtags, this.deleteHashtags)
+        baseController.post("/getPostHashtags", false, ValidationMiddaleware.getPostHashtags, this.getPostHashtags)
+        baseController.post("/getHashtagPostsWithOffset", false, ValidationMiddaleware.getHashtagPostsWithOffset, this.getHashtagPostsWithOffset)
+        baseController.post("/countHashtagPosts", false, ValidationMiddaleware.countHashtagPosts, this.countHashtagPosts)
+        baseController.post("/searchHashtagByName", false, ValidationMiddaleware.searchHashtagByName, this.countHashtagPosts)
     }
 
     private static addHashtags(req, res) {
-        
+        //TODO check if user is owner
     }
     private static deleteHashtags(req, res) {
-
+        //TODO check if user is owner
     }
     private static getPostHashtags(req, res) {
 
