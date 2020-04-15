@@ -59,7 +59,7 @@ export default class AccountController  {
 
                 case UserRepo.NOT_EXIST:
                     UserRepo.add(user, (err) => {
-                        if (err) res.status(500).send({ err: err })
+                        if (err)  return res.status(500).send({ err: err })
                         res.status(200).send("sign up done successfully");
                     });
                     break
@@ -102,14 +102,14 @@ export default class AccountController  {
 
     private static editFullName(req, res) {
         UserRepo.updateFullName(req.user.username, req.body.newFullName, (err) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send({ msg: "successfully" })
         })
     }
 
     private static editBio(req, res) {
         UserRepo.updateBio(req.user.username, req.body.newBio, (err) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send({ msg: "successfully" })
         })
     }

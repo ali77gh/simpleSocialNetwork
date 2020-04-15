@@ -24,63 +24,63 @@ export default class PostController{
 
     private static newPost(req, res) {
         PostRepo.add(Post.parse(req.body), (err) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send()   
         })
     }
 
     private static editTitle(req, res) {
         PostRepo.updateTitle(req.body.id,req.body.newTitle, (err) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send()
         })
     }
 
     private static editContent(req, res) {
         PostRepo.updateContent(req.body.id, req.body.newContent, (err) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send()
         })
     }
 
     private static getPost(req, res) {
         PostRepo.getWithId(req.param, (err, post: Post) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send(post)
         })
     }
 
     private static deletePost(req, res) {
         PostRepo.delete(req.body.id, (err) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send()
         })
     }
 
     private static getSomeonesPosts(req, res) {
         PostRepo.getWithOwner(req.body.owner, req.body.offset, (err, posts: Post[]) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
     }
 
     private static countSomeonesPosts(req, res) {
         PostRepo.countUserPosts(req.body.owner, (err, posts: number) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
     }
 
     private static getMyWallWithOffset(req, res) {
         PostRepo.getWall(req.user.username,req.body.offset, (err, posts: Post[]) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
     }
 
     private static countMyWall(req, res) {
         PostRepo.countWall(req.user.username, (err, posts: number) => {
-            if (err) res.status(500).send({ err: err })
+            if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
     }
