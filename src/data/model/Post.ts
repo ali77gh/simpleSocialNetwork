@@ -25,7 +25,7 @@ export default class Post {
     time: number; //unixtime
 
 
-    constructor(owner: string, title: string, content: string) {
+    private constructor(owner: string, title: string, content: string) {
         this.owner = owner;
         this.title = title;
         this.content = content;
@@ -41,13 +41,11 @@ export default class Post {
         );
     }
 
-    public static get joi() {
-        return {
-            id:Joi.string().min(35).max(37).required(),// uuid length is 36
-            owner: Joi.string().min(5).max(60).required().regex(/^[a-zA-Z0-9]+([_]?[a-zA-Z0-9])*$/),
-            title: Joi.string().min(3).max(20).required(),
-            content: Joi.string().min(0).max(1000).required(),
-        };
+    public static joi = {
+        id: Joi.string().min(35).max(37).required(),// uuid length is 36
+        owner: Joi.string().min(5).max(60).required().regex(/^[a-zA-Z0-9]+([_]?[a-zA-Z0-9])*$/),
+        title: Joi.string().min(3).max(20).required(),
+        content: Joi.string().min(0).max(1000).required(),
     }
 
 }

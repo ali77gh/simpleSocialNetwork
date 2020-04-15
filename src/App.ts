@@ -1,17 +1,20 @@
 import express from 'express';
 
-import DB from "./data/DB"
+import DB from "./data/DB";
 
 //controllers
-import TestControllers from "./controllers/TestControllers";
-import AccountController from "./controllers/AccountController"
-import AdminController from "./controllers/AdminController"
-import PostContoller from "./controllers/PostController"
+import TestControllers   from "./controllers/TestControllers";
+import AccountController from "./controllers/AccountController";
+import AdminController   from "./controllers/AdminController";
+import PostContoller     from "./controllers/PostController";
+import LikeController    from "./controllers/LikeController";
+import HashtagController from "./controllers/HashtagController";
+import CommentController from "./controllers/CommentController";
 
 //middlewares
 import LoggerMiddleware from "./middleware/LoggerMiddleware";
-import AuthMiddleware from "./middleware/AuthMiddleware"
-import bodyParser from "body-parser"
+import AuthMiddleware   from "./middleware/AuthMiddleware";
+import bodyParser       from "body-parser";
 
 
 class Main{
@@ -44,11 +47,13 @@ class Main{
 
     private initRouter(){
 
-        //these routes done without auth
-        TestControllers.init(this.app);
-        AccountController.init(this.app);
-        AdminController.init(this.app);
-        PostContoller.init(this.app);
+        TestControllers.init(this.app);// "/test"
+        AccountController.init(this.app);// "/account/*"
+        AdminController.init(this.app);// "/admin/*"
+        PostContoller.init(this.app);// "/post/*"
+        CommentController.init(this.app);// "/comment/*"
+        LikeController.init(this.app);// "/like/*"
+        HashtagController.init(this.app);// "/hashtag/*"
     }
 
     private listen(){

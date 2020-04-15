@@ -30,23 +30,21 @@ export default class User {
 
     public static parse(userObj: any): User {
 
-        return  new User(
+        return new User(
             userObj.email,
             userObj.username,
             userObj.password,
             userObj.fullName,
             userObj.bio
         );
-    }  
+    }
 
-    public static get joi() {
-        return {
-            email: Joi.string().min(5).max(60).required().email(),
-            username: Joi.string().min(5).max(50).required().regex(/^[a-zA-Z0-9]+([_]?[a-zA-Z0-9])*$/),
-            password: Joi.string().min(8).max(30).required(),
-            fullName: Joi.string().min(3).max(50).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
-            bio: Joi.string().min(3).max(500).required()
-        };
+    public static joi = {
+        email: Joi.string().min(5).max(60).required().email(),
+        username: Joi.string().min(5).max(50).required().regex(/^[a-zA-Z0-9]+([_]?[a-zA-Z0-9])*$/),
+        password: Joi.string().min(8).max(30).required(),
+        fullName: Joi.string().min(3).max(50).required().regex(/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/),
+        bio: Joi.string().min(3).max(500).required()
     }
 
 }
