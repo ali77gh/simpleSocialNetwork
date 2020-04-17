@@ -1,4 +1,5 @@
 import DBTools from "../DBTools";
+import Comment from "../model/Comment";
 
 
 export default class CommentRepo {
@@ -24,18 +25,55 @@ export default class CommentRepo {
                 return console.error(this.tableName + err.message);
             }
             this.initStatments();
-            DBTools.createIndex(db, this.tableName, "postId");
+            DBTools.createIndex(db, this.tableName, "postId","id");
         });
     }
 
     private static stm = {
 
-        insert: undefined,
+        newComment: undefined,
+        deleteComment: undefined,
+        getCommentsByPostWithOffset: undefined,
+        countCommentsByPost: undefined,
+        getOwnerByCommentId: undefined
     }
 
     private static initStatments() {
         //generate binaries
-        this.stm.insert = this.db.prepare(`INSERT INTO ${this.tableName} (id, who, postId, msg) VALUES (?, ?, ?, ?)`);
+        this.stm.newComment = this.db.prepare(`INSERT INTO ${this.tableName} (id, who, postId, msg) VALUES (?, ?, ?, ?)`);
+        this.stm.deleteComment = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?`);
+        this.stm.getCommentsByPostWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE postId = ? LIMIT 10 OFFSET ?`);
+        this.stm.countCommentsByPost = this.db.prepare(`SELECT count(postId) FROM ${this.tableName} WHERE postId = ?`);
+        this.stm.getOwnerByCommentId = this.db.prepare(`SELECT who FROM ${this.tableName} WHERE id = ?`);
+    }
 
+    static newComment(comment:Comment , finished: (err)=>void) {
+        this.stm.newComment.run([comment.id, comment.who, comment.postId, comment.msg], (err) => {
+            finished(err)
+        })
+    }
+
+    static deleteComment(commentId: string, finished: (err) => void) {
+        this.stm.newComment.run([commentId], (err) => {
+            finished(err)
+        })
+    }
+
+    static getCommentsByPostWithOffset(postId: string,offset, finished: (err,comments:Comment[]) => void) {
+        this.stm.getCommentsByPostWithOffset.all([postId,offset], (err,rows) => {
+            finished(err,rows)
+        })
+    }
+
+    static countCommentsByPost(commentId: string, finished: (err,count) => void) {
+        this.stm.newComment.get([commentId], (err,row) => {
+            finished(err, row["count(postId)"])
+        })
+    }
+
+    static getOwnerByCommentId(commentId: string, finished: (err, owner) => void) {
+        this.stm.getOwnerByCommentId.get([commentId], (err, row) => {
+            finished(err, row["who"])
+        })
     }
 }

@@ -19,7 +19,7 @@ export default class CommentValidationMiddleware extends BaseValidationMiddalewa
         return (req, res, next) => {
             super.handleError(req, res, next, {
                 body: {
-                    msg: Comment.joi.id,
+                    commentId: Comment.joi.id,
                 }
             })
         }
