@@ -29,50 +29,108 @@ export default class HashtagRepo {
     private static stm = {
 
         insert: undefined,
+        remove: undefined,
+        getPostHashtags: undefined,
+        getHashtagPosts: undefined,
+        countHashtagPosts: undefined,
+        searchHashtagByName: undefined,
     }
 
     private static initStatments() {
         //generate binaries
         this.stm.insert = this.db.prepare(`INSERT INTO ${this.tableName} (postId, hashtagName) VALUES (?, ?)`);
-
+        this.stm.remove = this.db.prepare(`DELETE FROM ${this.tableName} WHERE postId = ? AND hashtagName = ?;`);
+        this.stm.getPostHashtags = this.db.prepare(`SELECT hashtagName FROM ${this.tableName} WHERE postId = ?;`);
+        this.stm.getHashtagPosts = this.db.prepare(`SELECT postId FROM ${this.tableName} WHERE hashtagName = ? LIMIT 50 OFFSET ?;`)
+        this.stm.countHashtagPosts = this.db.prepare(`SELECT count(hashtagName) FROM ${this.tableName} WHERE hashtagName = ?`)
+        this.stm.searchHashtagByName = this.db.prepare(`SELECT DISTINCT hashtagName FROM ${this.tableName} WHERE hashtagName LIKE ?`)
     }
 
-    static setHashtag(hashtag: Hashtag): void {
+    static addHashtags(postId:string,hashtagNames: string[], finished: (err) => void) {
+        this.db.serialize(function () {
+            try {
+                this.db.exec("BEGIN");
 
-        const insert = this.db.prepare(`INSERT INTO ${this.tableName} 
-        (postId, hashtagName) VALUES (?, ?)`);
+                for (let hashtagName of hashtagNames)
+                    this.stm.insert.run([postId, hashtagName])
 
-        insert.run(hashtag.postId, hashtag.hashtagName)
-
+                this.db.exec("COMMIT");
+                finished(undefined)
+            } catch (e) {
+                finished(e.message)
+            }
+            
+        });
     }
 
-    static removeHashtag(hashtag: Hashtag): void {
-        this.db.prepare(`DELETE FROM ${this.tableName} WHERE postId = ? AND hashtagName = ?;`).run(hashtag.postId, hashtag.hashtagName);
+    static removeHashtags(postId: string, hashtagNames: string[], finished: (err) => void): void {
+        this.db.serialize(function () {
+            try {
+                this.db.exec("BEGIN");
+
+                for (let hashtagName of hashtagNames)
+                    this.stm.remove.run([postId, hashtagName])
+
+                this.db.exec("COMMIT");
+                finished(undefined)
+            } catch (e) {
+                finished(e.message)
+            }
+        });
     }
 
-    static getPostHashtags(postId: string, cb: (hashtags: string[]) => void): void {
+    static getPostHashtags(postId: string, finished: (err:string,hashtags: string[]) => void): void {
 
-        let hashtags: Hashtag[] = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE postId = ?;`).get(postId)
-
-        let hashtagNames: string[] = []
-        for (let i of hashtags) {
-            hashtagNames.push(i.hashtagName)
-        }
-        cb(hashtagNames);
+        this.stm.getPostHashtags.all([postId], (err, hashtags: Hashtag[]) => {
+            
+            if (hashtags) {
+                let hashtagNames: string[] = []
+                for (let i of hashtags) {
+                    hashtagNames.push(i.hashtagName)
+                }
+                finished(err,hashtagNames)
+            } else {
+                finished(err, undefined)
+            }
+        })
     }
 
-    static getHashtagPosts(hashtagName: string, cb: (postIds: string[]) => void): void {
+    static getHashtagPostsWithOffset(hashtagName: string,offset:number, finished: (err:string,postIds: string[]) => void): void {
 
-        let hashtags: Hashtag[] = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE hashtagName = ?;`).get(hashtagName)
+        this.stm.getHashtagPosts.all([hashtagName,offset], (err, hashtags: Hashtag[]) => {
 
-        let postIds: string[] = []
-        for (let i of hashtags) {
-            postIds.push(i.postId)
-        }
-        cb(postIds);
+            if (hashtags) {
+                let postIds: string[] = []
+                for (let i of hashtags) {
+                    postIds.push(i.postId)
+                }
+                finished(err, postIds)
+            } else {
+                finished(err, undefined)
+            }
+        })
+    }  
+
+    static countHashtagPosts(hashtagName: string, finished: (err: string, postIds: string[])=>void){
+        this.stm.countHashtagPosts.get([hashtagName], (err: string, row) => {
+            
+            finished(err, row["count(hashtagName)"])
+        })
     }
 
-    static getAll(cb: (follows: Hashtag[]) => void): void {
-        cb(this.db.prepare(`SELECT * FROM ${this.tableName}`).all());
+    static searchHashtagByName(hashtagName,finished:(err:string,hashtags:string[])=>void) {
+        hashtagName = "%" + hashtagName.replace(/ /g, "%") + "%";
+        this.stm.searchHashtagByName.all([hashtagName], (err, rows) => {
+
+            if (rows) {
+                let hashtagNames: string[] = []
+                for (let i of rows) {
+                    hashtagNames.push(i.hashtagName)
+                }
+                finished(err, hashtagNames)
+            } else {
+                finished(err, undefined)
+            }
+        })
     }
 }
