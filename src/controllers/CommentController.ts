@@ -2,6 +2,7 @@ import BaseController from "./BaseController"
 import ValidationMiddaleware from "./../middleware/validation/CommentValidationMiddleware"
 import CommentRepo from "../data/repo/CommentRepo"
 import Comment from "../data/model/Comment"
+import Config from "../Config"
 
 export default class CommentController {
 
@@ -26,12 +27,12 @@ export default class CommentController {
     }
 
     private static deleteComment(req, res) {
-        CommentRepo.getOwnerByCommentId(req.commentId, (err, ownerId) => {
+        CommentRepo.getOwnerByCommentId(req.body.commentId, (err, ownerId) => {
             if (err) return res.status(500).send({ err: err })
 
             if (req.user.username === ownerId) {
                 //user owned the comment
-                CommentRepo.deleteComment(req.commentId, (err) => {
+                CommentRepo.deleteComment(req.body.commentId, (err) => {
                     if (err) return res.status(500).send({ err: err })
                     return res.status(200).send()
                 })
@@ -43,14 +44,15 @@ export default class CommentController {
     }
 
     private static getCommentsByPostWithOffset(req, res) {
-        CommentRepo.getCommentsByPostWithOffset(req.postId, req.offset, (err, comments: Comment[]) => {
+        req.body.offset = parseInt(req.body.offset) * Config.limits.getCommentsByPostWithOffset;//oldest first
+        CommentRepo.getCommentsByPostWithOffset(req.body.postId, req.body.offset, (err, comments: Comment[]) => {
             if (err) return res.status(500).send({ err: err })
             return res.status(200).send(comments)
         })
     }
 
     private static countCommentsByPost(req, res) {
-        CommentRepo.countCommentsByPost(req.postId, (err, comments: number) => {
+        CommentRepo.countCommentsByPost(req.body.postId, (err, comments: number) => {
             if (err) return res.status(500).send({ err: err })
             return res.status(200).send(comments)
         })

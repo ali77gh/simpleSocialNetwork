@@ -3,6 +3,8 @@ import ValidationMiddaleware from "./../middleware/validation/HashtagValidationM
 import PostRepo from "../data/repo/PostRepo";
 import Post from "../data/model/Post";
 import HashtagRepo from "../data/repo/HashtagRepo";
+import { string } from "joi";
+import Config from "../Config";
 
 export default class HashtagController {
 
@@ -27,7 +29,7 @@ export default class HashtagController {
 
             if (post.owner === req.user.username) {
                 //user is owner
-                HashtagRepo.addHashtags(req.body.postId,req.hashtagNames, (err) => {
+                HashtagRepo.addHashtags(req.body.postId,req.body.hashtagNames, (err) => {
                     if (err) return res.status(500).send({ err: err })
                     res.status(200).send()
                 })
@@ -45,7 +47,7 @@ export default class HashtagController {
 
             if (post.owner === req.user.username) {
                 //user is owner
-                HashtagRepo.removeHashtags(req.body.postId,req.hashtagNames, (err) => {
+                HashtagRepo.removeHashtags(req.body.postId,req.body.hashtagNames, (err) => {
                     if (err) return res.status(500).send({ err: err })
                     res.status(200).send()
                 })
@@ -57,25 +59,37 @@ export default class HashtagController {
         })
     }
     private static getPostHashtags(req, res) {
-        HashtagRepo.getPostHashtags(req.postId, (err,hashtags:string[]) => {
+        HashtagRepo.getPostHashtags(req.body.postId, (err,hashtags:string[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(hashtags)
         })
     }
     private static getHashtagPostsWithOffset(req, res) {
-        HashtagRepo.getHashtagPostsWithOffset(req.hashtagName,req.offset, (err, posts: string[]) => {
+
+        // newer first
+        // so start counting
+        HashtagRepo.countHashtagPosts(req.body.hashtagName, (err:string, count: string) => {
             if (err) return res.status(500).send({ err: err })
-            res.status(200).send(posts)
+
+            // calculate new offset
+            let offset = parseInt(count) - (parseInt(req.body.offset) * Config.limits.getHashtagPosts);
+
+            HashtagRepo.getHashtagPostsWithOffset(req.body.hashtagName, offset, (err, posts: string[]) => {
+                if (err) return res.status(500).send({ err: err })
+                res.status(200).send(posts.reverse())// finally reverse (because newer first)
+            })
         })
+
+        
     }
     private static countHashtagPosts(req, res) {
-        HashtagRepo.countHashtagPosts(req.hashtagName, (err, count) => {
+        HashtagRepo.countHashtagPosts(req.body.hashtagName, (err, count) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(count)
         })
     }
     private static searchHashtagByName(req, res) {
-        HashtagRepo.searchHashtagByName(req.hashtagName, (err, hashtags: string[]) => {
+        HashtagRepo.searchHashtagByName(req.body.hashtagName, (err, hashtags: string[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(hashtags)
         })

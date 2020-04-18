@@ -98,7 +98,7 @@ export default class PostRepo {
         })
     }
 
-    static countUserPosts(owner: string, finished: (err: string, users: number) => void): void {
+    static countUserPosts(owner: string, finished: (err: string, posts: string) => void): void {
         this.stm.countUserPosts.get([owner], (err, row) => {
             finished(err, row["count(owner)"])
         })
@@ -110,7 +110,7 @@ export default class PostRepo {
         })
     }
 
-    static countWall(username: string, finished: (err: string, posts: number) => void) {
+    static countWall(username: string, finished: (err: string, posts: string) => void) {
         this.stm.getWallWithOffset.get([username], (err, row) => {
             finished(err, row["count(id)"])
         })

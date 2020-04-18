@@ -112,7 +112,7 @@ export default class HashtagRepo {
         })
     }  
 
-    static countHashtagPosts(hashtagName: string, finished: (err: string, postIds: string[])=>void){
+    static countHashtagPosts(hashtagName: string, finished: (err: string, count: string)=>void){
         this.stm.countHashtagPosts.get([hashtagName], (err: string, row) => {
             
             finished(err, row["count(hashtagName)"])

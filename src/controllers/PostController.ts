@@ -2,6 +2,8 @@ import BaseController from "./BaseController"
 import ValidationMiddaleware from "./../middleware/validation/PostValidationMiddleware"
 import PostRepo from "../data/repo/PostRepo"
 import Post from "../data/model/Post"
+import { number, string } from "joi"
+import Config from "../Config"
 
 export default class PostController{
 
@@ -44,7 +46,7 @@ export default class PostController{
     }
 
     private static getPost(req, res) {
-        PostRepo.getWithId(req.param, (err, post: Post) => {
+        PostRepo.getWithId(req.params.postId, (err, post: Post) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(post)
         })
@@ -58,28 +60,48 @@ export default class PostController{
     }
 
     private static getSomeonesPosts(req, res) {
-        PostRepo.getWithOwnerWithOffset(req.body.owner, req.body.offset, (err, posts: Post[]) => {
+
+        // newer first
+        // so start counting
+        PostRepo.countUserPosts(req.body.owner, (err, postsCount: string) => {
             if (err) return res.status(500).send({ err: err })
-            res.status(200).send(posts)
+
+            // calculate new offset
+            let offset = parseInt(postsCount) - (parseInt(req.body.offset) * Config.limits.getPostWithOwner);
+
+            PostRepo.getWithOwnerWithOffset(req.body.owner, offset, (err, posts: Post[]) => {
+                if (err) return res.status(500).send({ err: err })
+                res.status(200).send(posts.reverse())// finally reverse (because newer first)
+            })
         })
     }
 
     private static countSomeonesPosts(req, res) {
-        PostRepo.countUserPosts(req.body.owner, (err, posts: number) => {
+        PostRepo.countUserPosts(req.body.owner, (err, posts: string) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
     }
 
     private static getMyWallWithOffset(req, res) {
-        PostRepo.getWallWithOffset(req.user.username,req.body.offset, (err, posts: Post[]) => {
+
+        // newer first
+        // so start counting
+        PostRepo.countWall(req.user.username, (err, postsCount: string) => {
             if (err) return res.status(500).send({ err: err })
-            res.status(200).send(posts)
+
+            // calculate new offset
+            let offset = parseInt(postsCount) - (parseInt(req.body.offset) * Config.limits.getWall);
+
+            PostRepo.getWallWithOffset(req.user.username, req.body.offset, (err, posts: Post[]) => {
+                if (err) return res.status(500).send({ err: err })
+                res.status(200).send(posts.reverse())// finally reverse (because newer first)
+            })
         })
     }
 
     private static countMyWall(req, res) {
-        PostRepo.countWall(req.user.username, (err, posts: number) => {
+        PostRepo.countWall(req.user.username, (err, posts: string) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })

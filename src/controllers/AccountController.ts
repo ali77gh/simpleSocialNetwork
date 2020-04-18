@@ -8,6 +8,7 @@ import BaseController from "./BaseController";
 import JWT from "../middleware/AuthMiddleware";
 import FollowRepo from "../data/repo/FollowRepo";
 import Follow from "../data/model/Follow";
+import Config from "../Config";
 
 
 export default class AccountController  {
@@ -169,7 +170,8 @@ export default class AccountController  {
     }
 
     private static searchByUsername(req, res) {
-        UserRepo.searchByUsernameWithOffset(req.body.username,req.body.offset, (err: string, users: string[]) => {
+        req.body.offset = parseInt(req.body.offset) * Config.limits.searchByUsername;//oldest first
+        UserRepo.searchByUsernameWithOffset(req.body.username, req.body.offset, (err: string, users: string[]) => {
             if (err) return res.status(500).send(err)
             res.status(200).send(users)
         })

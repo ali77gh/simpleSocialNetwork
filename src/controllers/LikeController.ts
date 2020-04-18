@@ -2,6 +2,7 @@ import BaseController from "./BaseController"
 import ValidationMiddaleware from "./../middleware/validation/LikeValidationMiddleware"
 import LikeRepo from "../data/repo/LikeRepo";
 import Like from "../data/model/Like";
+import Config from "../Config";
 
 export default class LikeController {
 
@@ -32,6 +33,7 @@ export default class LikeController {
     }
 
     private static getLikesByPostOffset(req, res) {
+        req.body.offset = parseInt(req.body.offset) * Config.limits.getLikesByPostOffset;//oldest first
         LikeRepo.getLikesByPostOffset(req.body.postId,req.body.offset, (err,usernames:string[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(usernames)
