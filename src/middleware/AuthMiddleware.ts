@@ -1,12 +1,9 @@
 import jwt from "jsonwebtoken"
+import Config from "../Config";
 
 
 export default class JWT{
 
-    private static get jwtKey() { return "masalan_alaki_;)" }
-
-    private static get gcLoopTime() { return 1000 * 60 * 60 } // 1 hour
-    private static get expireTime(){ return "1d" } // 1 day
 
     private static blackListTokens = []; //{exp number ,token string }
 
@@ -18,7 +15,7 @@ export default class JWT{
                     JWT.blackListTokens.splice(JWT.blackListTokens.indexOf(i), 1);
                 }
             }
-        },JWT.gcLoopTime)
+        }, Config.gcLoopTime)
     }
 
     private static isInBlackList(token: string) : boolean {
@@ -37,7 +34,7 @@ export default class JWT{
 
         try {
             //if can verify the token, set req.user and pass to next middleware
-            const decoded = jwt.verify(token, JWT.jwtKey);
+            const decoded = jwt.verify(token, Config.jwtKey);
 
             if (JWT.isInBlackList(token)) {
                 return res.status(400).send("you loged out");
@@ -51,7 +48,7 @@ export default class JWT{
     }
 
     public static logout(token: string) {
-        const decoded = jwt.verify(token, JWT.jwtKey) as any;
+        const decoded = jwt.verify(token, Config.jwtKey) as any;
         JWT.blackListTokens.push(
             {
                 exp: decoded.exp,
@@ -62,7 +59,7 @@ export default class JWT{
 
     public static generateToken(userUsername: string): string {
        
-        const token = jwt.sign({ username: userUsername }, JWT.jwtKey, { expiresIn: JWT.expireTime });
+        const token = jwt.sign({ username: userUsername }, Config.jwtKey, { expiresIn: Config.expireTime });
         return token;
     }
 }

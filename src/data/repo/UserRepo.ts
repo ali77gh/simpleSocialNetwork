@@ -1,5 +1,6 @@
 import User from "../model/User";
 import DBTools from "../DBTools";
+import Config from "../../Config";
 
 
 export default class UserRepo {
@@ -40,7 +41,7 @@ export default class UserRepo {
         getHashPass: undefined,
         getAll: undefined,
         checkExist: undefined,
-        searchByUsername : undefined
+        searchByUsernameWithOffset : undefined
     }
 
     private static initStatments() {
@@ -55,7 +56,7 @@ export default class UserRepo {
         this.stm.getHashPass = this.db.prepare(`SELECT hashpass FROM ${this.tableName} WHERE username = ?;`)
         this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
         this.stm.checkExist = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ? or email = ?;`);
-        this.stm.searchByUsername = this.db.prepare(`SELECT * from ${this.tableName} WHERE username LIKE ? LIMIT 10 OFFSET ?;`)
+        this.stm.searchByUsernameWithOffset = this.db.prepare(`SELECT * from ${this.tableName} WHERE username LIKE ? LIMIT ${Config.limits.searchByUsername} OFFSET ?;`)
     }
 
     public static add(user: User, finished: (err: string) => void): void {
@@ -135,9 +136,9 @@ export default class UserRepo {
         })
     }
 
-    public static searchByUsername(username: string,offset, cb: (err: string, users: string[]) => void): void{
+    public static searchByUsernameWithOffset(username: string,offset, cb: (err: string, users: string[]) => void): void{
         username = "%" + username.replace(/ /g, "%") + "%";
-        this.stm.searchByUsername.all([username,offset], (err, rows) => {
+        this.stm.searchByUsernameWithOffset.all([username,offset], (err, rows) => {
             if (err) return cb(err, undefined)
             for (let i of rows) i.hashpass = undefined
             cb(err,rows)

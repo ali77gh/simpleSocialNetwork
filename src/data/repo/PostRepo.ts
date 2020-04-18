@@ -1,6 +1,7 @@
 import Post from "../model/Post";
 import DBTools from "../DBTools";
 import FollowRepo from "./FollowRepo";
+import Config from "../../Config";
 
 
 export default class PostRepo {
@@ -39,10 +40,10 @@ export default class PostRepo {
         updateContent: undefined,
         delete: undefined,
         getWithId: undefined,
-        getWithOwner: undefined,
+        getWithOwnerWithOffset: undefined,
         getAll: undefined,
         countUserPosts: undefined,
-        getWall: undefined,
+        getWallWithOffset: undefined,
         countWall:undefined
     }
 
@@ -53,10 +54,10 @@ export default class PostRepo {
         this.stm.updateContent = this.db.prepare(`UPDATE ${this.tableName} SET content = ? WHERE id = ?;`)
         this.stm.delete = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?;`)
         this.stm.getWithId = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE id = ?;`)
-        this.stm.getWithOwner = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = ? LIMIT 5 OFFSET ?;`)
+        this.stm.getWithOwnerWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = ? LIMIT ${Config.limits.getPostWithOwner} OFFSET ?;`)
         this.stm.countUserPosts = this.db.prepare(`SELECT count(owner) FROM ${this.tableName} WHERE owner = ?`)
         this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
-        this.stm.getWall = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?) LIMIT 5 OFFSET ?;`)
+        this.stm.getWallWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?) LIMIT ${Config.limits.getWall} OFFSET ?;`)
         this.stm.countWall = this.db.prepare(`SELECT count(id) FROM ${this.tableName} WHERE owner = (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?);`)
     }
 
@@ -91,8 +92,8 @@ export default class PostRepo {
         })
     }
 
-    static getWithOwner(owner: string, offset: number, finished: (err: string, posts: Post[]) => void): void {
-        this.stm.getWithOwner.all([owner,offset], (err, row) => {
+    static getWithOwnerWithOffset(owner: string, offset: number, finished: (err: string, posts: Post[]) => void): void {
+        this.stm.getWithOwnerWithOffset.all([owner,offset], (err, row) => {
             finished(err, row)
         })
     }
@@ -103,14 +104,14 @@ export default class PostRepo {
         })
     }
 
-    static getWall(username: string,offset: number, finished: (err: string, posts: Post[]) => void) {
-        this.stm.getWall.all([username, offset], (err, rows) => {
+    static getWallWithOffset(username: string,offset: number, finished: (err: string, posts: Post[]) => void) {
+        this.stm.getWallWithOffset.all([username, offset], (err, rows) => {
             finished(err, rows)
         })
     }
 
     static countWall(username: string, finished: (err: string, posts: number) => void) {
-        this.stm.getWall.get([username], (err, row) => {
+        this.stm.getWallWithOffset.get([username], (err, row) => {
             finished(err, row["count(id)"])
         })
     }

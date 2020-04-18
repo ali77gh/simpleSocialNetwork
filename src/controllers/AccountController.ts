@@ -169,7 +169,7 @@ export default class AccountController  {
     }
 
     private static searchByUsername(req, res) {
-        UserRepo.searchByUsername(req.body.username,req.body.offset, (err: string, users: string[]) => {
+        UserRepo.searchByUsernameWithOffset(req.body.username,req.body.offset, (err: string, users: string[]) => {
             if (err) return res.status(500).send(err)
             res.status(200).send(users)
         })

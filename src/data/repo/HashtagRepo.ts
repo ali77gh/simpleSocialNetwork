@@ -1,5 +1,6 @@
 import Hashtag from "../model/Hashtag";
 import DBTools from "../DBTools";
+import Config from "../../Config";
 
 
 export default class HashtagRepo {
@@ -31,7 +32,7 @@ export default class HashtagRepo {
         insert: undefined,
         remove: undefined,
         getPostHashtags: undefined,
-        getHashtagPosts: undefined,
+        getHashtagPostsWithOffset: undefined,
         countHashtagPosts: undefined,
         searchHashtagByName: undefined,
     }
@@ -41,7 +42,7 @@ export default class HashtagRepo {
         this.stm.insert = this.db.prepare(`INSERT INTO ${this.tableName} (postId, hashtagName) VALUES (?, ?)`);
         this.stm.remove = this.db.prepare(`DELETE FROM ${this.tableName} WHERE postId = ? AND hashtagName = ?;`);
         this.stm.getPostHashtags = this.db.prepare(`SELECT hashtagName FROM ${this.tableName} WHERE postId = ?;`);
-        this.stm.getHashtagPosts = this.db.prepare(`SELECT postId FROM ${this.tableName} WHERE hashtagName = ? LIMIT 50 OFFSET ?;`)
+        this.stm.getHashtagPostsWithOffset = this.db.prepare(`SELECT postId FROM ${this.tableName} WHERE hashtagName = ? LIMIT ${Config.limits.getHashtagPosts} OFFSET ?;`)
         this.stm.countHashtagPosts = this.db.prepare(`SELECT count(hashtagName) FROM ${this.tableName} WHERE hashtagName = ?`)
         this.stm.searchHashtagByName = this.db.prepare(`SELECT DISTINCT hashtagName FROM ${this.tableName} WHERE hashtagName LIKE ?`)
     }
@@ -97,7 +98,7 @@ export default class HashtagRepo {
 
     static getHashtagPostsWithOffset(hashtagName: string,offset:number, finished: (err:string,postIds: string[]) => void): void {
 
-        this.stm.getHashtagPosts.all([hashtagName,offset], (err, hashtags: Hashtag[]) => {
+        this.stm.getHashtagPostsWithOffset.all([hashtagName,offset], (err, hashtags: Hashtag[]) => {
 
             if (hashtags) {
                 let postIds: string[] = []

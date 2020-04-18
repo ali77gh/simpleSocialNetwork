@@ -1,5 +1,6 @@
 import DBTools from "../DBTools";
 import Comment from "../model/Comment";
+import Config from "../../Config";
 
 
 export default class CommentRepo {
@@ -42,7 +43,7 @@ export default class CommentRepo {
         //generate binaries
         this.stm.newComment = this.db.prepare(`INSERT INTO ${this.tableName} (id, who, postId, msg) VALUES (?, ?, ?, ?)`);
         this.stm.deleteComment = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?`);
-        this.stm.getCommentsByPostWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE postId = ? LIMIT 10 OFFSET ?`);
+        this.stm.getCommentsByPostWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE postId = ? LIMIT ${Config.limits.getCommentsByPostWithOffset} OFFSET ?`);
         this.stm.countCommentsByPost = this.db.prepare(`SELECT count(postId) FROM ${this.tableName} WHERE postId = ?`);
         this.stm.getOwnerByCommentId = this.db.prepare(`SELECT who FROM ${this.tableName} WHERE id = ?`);
     }

@@ -58,7 +58,7 @@ export default class PostController{
     }
 
     private static getSomeonesPosts(req, res) {
-        PostRepo.getWithOwner(req.body.owner, req.body.offset, (err, posts: Post[]) => {
+        PostRepo.getWithOwnerWithOffset(req.body.owner, req.body.offset, (err, posts: Post[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
@@ -72,7 +72,7 @@ export default class PostController{
     }
 
     private static getMyWallWithOffset(req, res) {
-        PostRepo.getWall(req.user.username,req.body.offset, (err, posts: Post[]) => {
+        PostRepo.getWallWithOffset(req.user.username,req.body.offset, (err, posts: Post[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(posts)
         })
