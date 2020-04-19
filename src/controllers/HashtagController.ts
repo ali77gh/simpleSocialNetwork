@@ -23,15 +23,36 @@ export default class HashtagController {
     }
 
     private static addHashtags(req, res) {
+
+        // this line is for improving performance
+        // reject without run queries ;)
+        if (req.body.hashtagNames.length > Config.hashtagPerPostLimit) {
+            return res.status(400).send({ err: `post can't have more then ${Config.hashtagPerPostLimit} hashtags` })
+        }
+        
+
         //check if user is owner
         PostRepo.getWithId(req.body.postId, (err, post: Post) => {
             if (err) return res.status(500).send({ err: err })
 
+
             if (post.owner === req.user.username) {
-                //user is owner
-                HashtagRepo.addHashtags(req.body.postId,req.body.hashtagNames, (err) => {
+                // user is owner
+                // check if hash tags not crossing limits
+                HashtagRepo.countPostHashtags(req.body.postId, (err, count: string) => {
                     if (err) return res.status(500).send({ err: err })
-                    res.status(200).send()
+
+                    if (parseInt(count) + req.body.hashtagNames.length > Config.hashtagPerPostLimit) {
+                        //user is crossing limits
+                        return res.status(400).send({ err: `post can't have more then ${Config.hashtagPerPostLimit} hashtags` })
+                    } else {
+                        //user is not crossing limits
+                        HashtagRepo.addHashtags(req.body.postId, req.body.hashtagNames, (err) => {
+
+                            if (err) return res.status(500).send({ err: err })
+                            res.status(200).send()
+                        })
+                    }
                 })
 
             } else {
@@ -40,6 +61,7 @@ export default class HashtagController {
             }
         })
     }
+    
     private static deleteHashtags(req, res) {
         //check if user is owner
         PostRepo.getWithId(req.body.postId, (err, post: Post) => {

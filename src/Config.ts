@@ -6,6 +6,7 @@ export default class Config {
     public static get jwtKey() { return "masalan_alaki_;)" } //TODO change before deploy after commit 😂
     public static get gcLoopTime() { return 1000 * 60 * 60 } // 1 hour
     public static get expireTime() { return "1d" } // 1 day
+    public static get hashtagPerPostLimit(){return 20}
 
     // paging configs
     public static limits = {
