@@ -52,11 +52,11 @@ export default class UserRepo {
         this.stm.updateBio = this.db.prepare(`UPDATE ${this.tableName} SET bio = ? WHERE username = ?;`)
         this.stm.updatePassword = this.db.prepare(`UPDATE ${this.tableName} SET hashpass = ? WHERE username = ?;`)
         this.stm.delete = this.db.prepare(`DELETE FROM ${this.tableName} WHERE email = ?;`)
-        this.stm.getWithUsername = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ?;`)
+        this.stm.getWithUsername = this.db.prepare(`SELECT email,username,fullname,bio FROM ${this.tableName} WHERE username = ?;`)
         this.stm.getHashPass = this.db.prepare(`SELECT hashpass FROM ${this.tableName} WHERE username = ?;`)
         this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
         this.stm.checkExist = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE username = ? or email = ?;`);
-        this.stm.searchByUsernameWithOffset = this.db.prepare(`SELECT * from ${this.tableName} WHERE username LIKE ? LIMIT ${Config.limits.searchByUsername} OFFSET ?;`)
+        this.stm.searchByUsernameWithOffset = this.db.prepare(`SELECT email,username,fullname,bio from ${this.tableName} WHERE username LIKE ? LIMIT ${Config.limits.searchByUsername} OFFSET ?;`)
     }
 
     public static add(user: User, finished: (err: string) => void): void {
@@ -91,7 +91,6 @@ export default class UserRepo {
 
     public static getWithUsername(username: string, finished: (err: string, users: User) => void): void {
         this.stm.getWithUsername.get([username], (err, row) => {
-            row.hashpass = undefined
             finished(err, row);
         })
     }
@@ -139,8 +138,6 @@ export default class UserRepo {
     public static searchByUsernameWithOffset(username: string,offset, cb: (err: string, users: string[]) => void): void{
         username = "%" + username.replace(/ /g, "%") + "%";
         this.stm.searchByUsernameWithOffset.all([username,offset], (err, rows) => {
-            if (err) return cb(err, undefined)
-            for (let i of rows) i.hashpass = undefined
             cb(err,rows)
         })
     }
