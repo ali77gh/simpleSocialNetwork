@@ -10,7 +10,7 @@ export default class HashtagValidationMiddleware extends BaseValidationMiddalewa
             super.handleError(req, res, next, {
                 body: {
                     postId: Post.joi.id,
-                    hashtagNames: Joi.array().items(Hashtag.joi.hashtagName) ,
+                    hashtagNames: Joi.array().items(Hashtag.joi.hashtagName).required() ,
                 }
             })
         }
@@ -21,7 +21,7 @@ export default class HashtagValidationMiddleware extends BaseValidationMiddalewa
             super.handleError(req, res, next, {
                 body: {
                     postId: Post.joi.id,
-                    hashtagNames: Joi.array().items(Hashtag.joi.hashtagName),
+                    hashtagNames: Joi.array().items(Hashtag.joi.hashtagName).required(),
                 }
             })
         }

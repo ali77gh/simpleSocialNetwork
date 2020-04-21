@@ -63,6 +63,13 @@ export default class HashtagController {
     }
     
     private static deleteHashtags(req, res) {
+
+        // this line is for improving performance
+        // reject without run queries ;)
+        if (req.body.hashtagNames.length > Config.hashtagPerPostLimit) {
+            return res.status(400).send({ err: `you can't delete more then ${Config.hashtagPerPostLimit} hashtags` })
+        }
+
         //check if user is owner
         PostRepo.getWithId(req.body.postId, (err, post: Post) => {
             if (err) return res.status(500).send({ err: err })
@@ -80,12 +87,14 @@ export default class HashtagController {
             }
         })
     }
+
     private static getPostHashtags(req, res) {
         HashtagRepo.getPostHashtags(req.body.postId, (err,hashtags:string[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(hashtags)
         })
     }
+    
     private static getHashtagPostsWithOffset(req, res) {
 
         // newer first
@@ -107,7 +116,7 @@ export default class HashtagController {
     private static countHashtagPosts(req, res) {
         HashtagRepo.countHashtagPosts(req.body.hashtagName, (err, count) => {
             if (err) return res.status(500).send({ err: err })
-            res.status(200).send(count)
+            res.status(200).send(count.toString())
         })
     }
     private static searchHashtagByName(req, res) {

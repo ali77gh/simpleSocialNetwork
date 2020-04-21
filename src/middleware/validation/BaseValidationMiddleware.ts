@@ -45,6 +45,6 @@ export default class BaseValidationMiddaleware{
     }
 
     public static globalJois = {
-        offset: Joi.number().integer().min(0).required(),
+        offset: Joi.number().integer().min(1).required(),
     }
 }

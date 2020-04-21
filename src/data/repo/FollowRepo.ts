@@ -47,6 +47,7 @@ export default class FollowRepo {
     }
 
     static follow(follow: Follow, finished: (err: string) => void): void {
+        console.log(follow.follower+" "+ follow.followed)
         this.stm.follow.run([follow.follower, follow.followed], (err) => {
             finished(err)
         })

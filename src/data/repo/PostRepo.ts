@@ -57,8 +57,8 @@ export default class PostRepo {
         this.stm.getWithOwnerWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = ? LIMIT ${Config.limits.getPostWithOwner} OFFSET ?;`)
         this.stm.countUserPosts = this.db.prepare(`SELECT count(owner) FROM ${this.tableName} WHERE owner = ?`)
         this.stm.getAll = this.db.prepare(`SELECT * FROM ${this.tableName}`)
-        this.stm.getWallWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner = (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?) LIMIT ${Config.limits.getWall} OFFSET ?;`)
-        this.stm.countWall = this.db.prepare(`SELECT count(id) FROM ${this.tableName} WHERE owner = (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?);`)
+        this.stm.getWallWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE owner IN (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?) LIMIT ${Config.limits.getWall} OFFSET ?;`)
+        this.stm.countWall = this.db.prepare(`SELECT count(id) FROM ${this.tableName} WHERE owner IN (SELECT followed FROM ${FollowRepo.tableName} WHERE follower = ?);`)
     }
 
     static add(post: Post, finished: (err: string) => void): void {
@@ -88,6 +88,7 @@ export default class PostRepo {
 
     static getWithId(id: string, finished: (err: string, post: Post) => void): void {
         this.stm.getWithId.get([id], (err, row) => {
+            if(!err && !row) return finished("post not found",undefined)
             finished(err, row)
         })
     }
@@ -111,7 +112,8 @@ export default class PostRepo {
     }
 
     static countWall(username: string, finished: (err: string, posts: string) => void) {
-        this.stm.getWallWithOffset.get([username], (err, row) => {
+        this.stm.countWall.get([username], (err, row) => {
+            if (err) return finished(err, undefined)
             finished(err, row["count(id)"])
         })
     }

@@ -70,6 +70,7 @@ export default class LikeRepo {
 
     public static countLikesByPost(postId: string, fininshed: (err,count:number) => void) {
         this.stm.countLikesByPost.get([postId], (err: string,row) => {
+            if (err) return fininshed(err,undefined)
             fininshed(err, row["count(postId)"])
         })
     }

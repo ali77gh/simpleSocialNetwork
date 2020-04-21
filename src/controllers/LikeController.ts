@@ -11,14 +11,14 @@ export default class LikeController {
         let baseController = new BaseController(app, "/like");
 
         // like CRUD
-        baseController.post("/newLike", true, ValidationMiddaleware.newLike, this.newLike) //TODO TEST PLZ
-        baseController.post("/deleteLike", true, ValidationMiddaleware.deleteLike, this.deleteLike) //TODO TEST PLZ
-        baseController.post("/getLikesByPostOffset", false, ValidationMiddaleware.getLikesByPostOffset, this.getLikesByPostOffset) //TODO TEST PLZ
-        baseController.post("/countLikesByPost", false, ValidationMiddaleware.countLikesByPost, this.countLikesByPost) //TODO TEST PLZ
+        baseController.post("/newLike", true, ValidationMiddaleware.newLike, this.newLike)
+        baseController.post("/deleteLike", true, ValidationMiddaleware.deleteLike, this.deleteLike)
+        baseController.post("/getLikesByPostOffset", false, ValidationMiddaleware.getLikesByPostOffset, this.getLikesByPostOffset)
+        baseController.post("/countLikesByPost", false, ValidationMiddaleware.countLikesByPost, this.countLikesByPost)
     }
 
     private static newLike(req, res) {
-        
+        req.body.who = req.user.username;
         LikeRepo.newLike(Like.parse(req.body), (err) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send()
@@ -26,6 +26,7 @@ export default class LikeController {
     }
 
     private static deleteLike(req, res) {
+        req.body.who = req.user.username;
         LikeRepo.deleteLike(Like.parse(req.body), (err) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send()
@@ -33,7 +34,7 @@ export default class LikeController {
     }
 
     private static getLikesByPostOffset(req, res) {
-        req.body.offset = parseInt(req.body.offset) * Config.limits.getLikesByPostOffset;//oldest first
+        req.body.offset = (parseInt(req.body.offset)-1) * Config.limits.getLikesByPostOffset;//oldest first
         LikeRepo.getLikesByPostOffset(req.body.postId,req.body.offset, (err,usernames:string[]) => {
             if (err) return res.status(500).send({ err: err })
             res.status(200).send(usernames)
@@ -43,7 +44,7 @@ export default class LikeController {
     private static countLikesByPost(req, res) {
         LikeRepo.countLikesByPost(req.body.postId, (err, count: number) => {
             if (err) return res.status(500).send({ err: err })
-            res.status(200).send(count)
+            res.status(200).send(count.toString())
         })
     }
 }

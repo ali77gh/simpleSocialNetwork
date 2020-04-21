@@ -170,7 +170,7 @@ export default class AccountController  {
     }
 
     private static searchByUsername(req, res) {
-        req.body.offset = parseInt(req.body.offset) * Config.limits.searchByUsername;//oldest first
+        req.body.offset = (parseInt(req.body.offset)-1) * Config.limits.searchByUsername;//oldest first
         UserRepo.searchByUsernameWithOffset(req.body.username, req.body.offset, (err: string, users: string[]) => {
             if (err) return res.status(500).send(err)
             res.status(200).send(users)

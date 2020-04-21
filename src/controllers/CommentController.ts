@@ -44,7 +44,7 @@ export default class CommentController {
     }
 
     private static getCommentsByPostWithOffset(req, res) {
-        req.body.offset = parseInt(req.body.offset) * Config.limits.getCommentsByPostWithOffset;//oldest first
+        req.body.offset = (parseInt(req.body.offset) - 1) * Config.limits.getCommentsByPostWithOffset;//oldest first
         CommentRepo.getCommentsByPostWithOffset(req.body.postId, req.body.offset, (err, comments: Comment[]) => {
             if (err) return res.status(500).send({ err: err })
             return res.status(200).send(comments)
@@ -54,7 +54,7 @@ export default class CommentController {
     private static countCommentsByPost(req, res) {
         CommentRepo.countCommentsByPost(req.body.postId, (err, comments: number) => {
             if (err) return res.status(500).send({ err: err })
-            return res.status(200).send(comments)
+            return res.status(200).send(comments.toString())
         })
     }
 }

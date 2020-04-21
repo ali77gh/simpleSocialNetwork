@@ -29,8 +29,8 @@ export default class HashtagRepo {
 
     private static stm = {
 
-        insert: undefined,
-        remove: undefined,
+        insertMany: undefined,
+        removeMany: undefined,
         getPostHashtags: undefined,
         getHashtagPostsWithOffset: undefined,
         countHashtagPosts: undefined,
@@ -40,8 +40,8 @@ export default class HashtagRepo {
 
     private static initStatments() {
         //generate binaries
-        this.stm.insert = this.db.prepare(`INSERT INTO ${this.tableName} (postId, hashtagName) VALUES (?, ?)`);
-        this.stm.remove = this.db.prepare(`DELETE FROM ${this.tableName} WHERE postId = ? AND hashtagName = ?;`);
+        this.stm.insertMany = undefined; // this cant be like this
+        this.stm.removeMany = undefined; // this cant be like this
         this.stm.getPostHashtags = this.db.prepare(`SELECT hashtagName FROM ${this.tableName} WHERE postId = ?;`);
         this.stm.countPostHashtags = this.db.prepare(`SELECT count(postId) FROM ${this.tableName} WHERE postId = ?;`);
         this.stm.getHashtagPostsWithOffset = this.db.prepare(`SELECT postId FROM ${this.tableName} WHERE hashtagName = ? LIMIT ${Config.limits.getHashtagPosts} OFFSET ?;`)
@@ -50,35 +50,40 @@ export default class HashtagRepo {
     }
 
     static addHashtags(postId: string, hashtagNames: string[], finished: (err) => void) {
-        this.db.serialize(function () {
-            try {
-                this.db.exec("BEGIN");
 
-                for (let hashtagName of hashtagNames)
-                    this.stm.insert.run([postId, hashtagName])
+        // generating sql query
+        let placeholders = hashtagNames.map((_) => '(?,?)').join(',');
+        let sql = `INSERT INTO ${this.tableName} (postId, hashtagName) VALUES ${placeholders} ;`
+        
 
-                this.db.exec("COMMIT");
-                finished(undefined)
-            } catch (e) {
-                finished(e.message)
-            }
+        // generating params
+        let params: string[] = []
+        for (let i of hashtagNames) {
+            params.push(postId)
+            params.push(i)
+        }
 
+
+        // launch apolo
+        this.db.run(sql, params, (err)=> {
+            finished(err);
         });
     }
 
     static removeHashtags(postId: string, hashtagNames: string[], finished: (err) => void): void {
-        this.db.serialize(function () {
-            try {
-                this.db.exec("BEGIN");
+        
+        // generating sql query
+        let placeholders = ""
+        for (let i of hashtagNames) placeholders += "?,"
+        placeholders = placeholders.slice(0, -1);
+        let sql = `DELETE FROM ${this.tableName} WHERE postId = ? AND hashtagName IN (${placeholders}) ;`
 
-                for (let hashtagName of hashtagNames)
-                    this.stm.remove.run([postId, hashtagName])
+        // generating params
+        hashtagNames.unshift(postId)
 
-                this.db.exec("COMMIT");
-                finished(undefined)
-            } catch (e) {
-                finished(e.message)
-            }
+        // launch apolo
+        this.db.run(sql, hashtagNames, (err)=> {
+            finished(err);
         });
     }
 

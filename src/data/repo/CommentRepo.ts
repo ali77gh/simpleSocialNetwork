@@ -43,7 +43,7 @@ export default class CommentRepo {
         //generate binaries
         this.stm.newComment = this.db.prepare(`INSERT INTO ${this.tableName} (id, who, postId, msg) VALUES (?, ?, ?, ?)`);
         this.stm.deleteComment = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?`);
-        this.stm.getCommentsByPostWithOffset = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE postId = ? LIMIT ${Config.limits.getCommentsByPostWithOffset} OFFSET ?`);
+        this.stm.getCommentsByPostWithOffset = this.db.prepare(`SELECT id,who,msg FROM ${this.tableName} WHERE postId = ? LIMIT ${Config.limits.getCommentsByPostWithOffset} OFFSET ?`);
         this.stm.countCommentsByPost = this.db.prepare(`SELECT count(postId) FROM ${this.tableName} WHERE postId = ?`);
         this.stm.getOwnerByCommentId = this.db.prepare(`SELECT who FROM ${this.tableName} WHERE id = ?`);
     }
@@ -55,7 +55,7 @@ export default class CommentRepo {
     }
 
     static deleteComment(commentId: string, finished: (err) => void) {
-        this.stm.newComment.run([commentId], (err) => {
+        this.stm.deleteComment.run([commentId], (err) => {
             finished(err)
         })
     }
@@ -67,7 +67,8 @@ export default class CommentRepo {
     }
 
     static countCommentsByPost(commentId: string, finished: (err,count) => void) {
-        this.stm.newComment.get([commentId], (err,row) => {
+        this.stm.countCommentsByPost.get([commentId], (err, row) => {
+            if (err) return finished(err, undefined)
             finished(err, row["count(postId)"])
         })
     }

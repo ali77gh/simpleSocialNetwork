@@ -57,7 +57,7 @@ export default class PostValidationMiddleware extends BaseValidationMiddaleware 
         return (req, res, next) => {
             super.handleError(req, res, next, {
                 body: {
-                    postId: User.joi.username,
+                    username: User.joi.username,
                     offset: BaseValidationMiddaleware.globalJois.offset,
                 }
             })
@@ -67,7 +67,7 @@ export default class PostValidationMiddleware extends BaseValidationMiddaleware 
         return (req, res, next) => {
             super.handleError(req, res, next, {
                 body: {
-                    postId: User.joi.username,
+                    username: User.joi.username,
                 }
             })
         }
