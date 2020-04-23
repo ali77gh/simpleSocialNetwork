@@ -20,7 +20,7 @@ import bodyParser       from "body-parser";
 class Main{
 
     private app
-    private port = 3000
+    private port = 80
     
     constructor(){
         this.app = express()
