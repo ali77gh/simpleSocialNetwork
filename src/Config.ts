@@ -1,10 +1,14 @@
-
+import { v4 as uuidv4 } from "uuid"
 
 export default class Config {
 
     // security
-    public static get jwtKey() { return "masalan_alaki_;)" } //TODO change before deploy after commit 😂
-    public static get gcLoopTime() { return 1000 * 60 * 60 } // 1 hour
+    private static _jwtKey = "";
+    public static get jwtKey() {
+        if (this._jwtKey === "") this._jwtKey = uuidv4();
+        return this._jwtKey;   
+    }
+    public static get gcLoopTime() { return 3600000 } // 1000 * 60 * 60 // 1 hour
     public static get expireTime() { return "1d" } // 1 day
     public static get hashtagPerPostLimit(){return 10}
 

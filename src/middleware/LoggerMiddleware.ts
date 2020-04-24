@@ -19,10 +19,8 @@ export default class LoggerMiddleware {
                 \t at:${new Date()} 
                 \t counter:${LoggerMiddleware.counter} \n`;
 
-            //console.log(logText);
             fs.appendFile('./data/req.log', logText, function (err) {
                 if (err) throw err;
-                //console.log(logText);
             });
             next()
         })
