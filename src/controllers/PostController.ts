@@ -2,7 +2,6 @@ import BaseController from "./BaseController"
 import ValidationMiddaleware from "./../middleware/validation/PostValidationMiddleware"
 import PostRepo from "../data/repo/PostRepo"
 import Post from "../data/model/Post"
-import { number, string } from "joi"
 import Config from "../Config"
 
 export default class PostController {

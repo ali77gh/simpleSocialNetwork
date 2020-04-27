@@ -1,0 +1,1229 @@
+{
+	"info": {
+		"_postman_id": "91517883-986e-454c-99c6-34ff28b003af",
+		"name": "simple social network (localhost)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6c3173a9-0165-4551-8408-133f4336d6ee",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"alighahremani1377@gmail.com\",\n\t\"username\":\"admin\",\n\t\"password\":\"qwertyuiop[]\",\n\t\"fullName\":\"ali ghahremani\",\n\t\"bio\": \"developer of simple-social-network\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\" : \"admin\",\n\t\"password\": \"qwertyuiop[]\"\n}\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountInfo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/account/getAccountInfo/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"getAccountInfo",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editAccountInfo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaTc3Z2giLCJpYXQiOjE1ODU5OTMwMzcsImV4cCI6MTU4NjA3OTQzN30.tdH7Y41HQIgvD-YuZnCM-QYXPqgTOnk67SqGDp84Sx0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"newBio\" : \"new bioooooooooooo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/editbio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"editbio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaTc3Z2giLCJpYXQiOjE1ODU5OTI5MzYsImV4cCI6MTU4NjA3OTMzNn0.mEc8dxRt1sB5ZKi8c_Wj4UbORzVBGBWzX0Y2vPGqzSw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"oldPassword\":\"qwertyuiop[]1\",\n\t\"newPassword\":\"qwertyuiop[]\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/editpassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"editpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3Mjk0MjAwLCJleHAiOjE1ODczODA2MDB9.fc-u05QmdL0wdbPk2Wgbj1ldWDQ1kIK4_r7nGl1HZUM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/account/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchbtUsername",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg2NDM3OTM5LCJleHAiOjE1ODY1MjQzMzl9.GvxYFGlS8A6bgkXpzA1USJzY3LpInIncO00ZBbWSjwk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin\",\n\t\"offset\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/searchbyusername",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"searchbyusername"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "follow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3MzEwNTY4LCJleHAiOjE1ODczOTY5Njh9.NSSlcUh4PMTMmD6iefKgvFbokEB_xRVLCl3DeOsJtt8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/follow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unfollow",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg2NTA3MDM1LCJleHAiOjE1ODY1OTM0MzV9.bFX9o1heSRIj85zFEb7crvz8An7rfyOyltw06gyG5kQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin_gholi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/unfollow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"unfollow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFollowers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/getfollowers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"getfollowers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFollowings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/getfollowings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"getfollowings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "countFollowers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/countfollowers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"countfollowers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "countFollowings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/account/countfollowings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"account",
+								"countfollowings"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "getLogs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NjM0NDExLCJleHAiOjE1ODc3MjA4MTF9.5eluD-Q_8cdjOlGaDx_4q_ZcFBdl9y-hSrhlC5dmuFw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/admin/getlogs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"getlogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "clearLogs",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NjM0NDExLCJleHAiOjE1ODc3MjA4MTF9.5eluD-Q_8cdjOlGaDx_4q_ZcFBdl9y-hSrhlC5dmuFw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/admin/clearlogs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"clearlogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "backup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NjQwMzg2LCJleHAiOjE1ODc3MjY3ODZ9.wGbo2GFga1X7XlBMR1_ANCLDwbnNnusmNynagazKjsM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/admin/backupdatabase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"admin",
+								"backupdatabase"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "new post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluMiIsImlhdCI6MTU4NzMwNzcwNSwiZXhwIjoxNTg3Mzk0MTA1fQ.gDLp3ay0sOhHdh6ZIzw86WKumJpXppLMWT8Ny-1FwBI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"post 7\",\n\t\"content\":\"post7 content\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/newpost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"newpost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit title",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3MzA4MDM2LCJleHAiOjE1ODczOTQ0MzZ9.b16yghNS6pYEBmfNoR8SgqShABGtZkMTVKyDZ7jPVKM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":\"63baf170-39d2-4cab-a57d-aee9d7670b9b\",\n\t\"newTitle\": \"edited title post1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/editTitle",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"editTitle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit content",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3MzA4MTcxLCJleHAiOjE1ODczOTQ1NzF9.xTeyZ_nXjnbHaCxjzHvj6O7isaP7_0b6wi0NqjogODE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":\"63baf170-39d2-4cab-a57d-aee9d7670b9b\",\n\t\"newContent\": \"edited content post1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/editContent",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"editContent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/post/getpost/63baf170-39d2-4cab-a57d-aee9d7670b9b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"getpost",
+								"63baf170-39d2-4cab-a57d-aee9d7670b9b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3MzA4MTcxLCJleHAiOjE1ODczOTQ1NzF9.xTeyZ_nXjnbHaCxjzHvj6O7isaP7_0b6wi0NqjogODE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\":\"34dfc1f0-faac-4f5a-86fb-ea438d9695d3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/deletePost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"deletePost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Someones Posts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\":\"admin\",\n\t\"offset\":2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/getsomeonesposts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"getsomeonesposts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count someones Posts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/countSomeonesPosts/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"countSomeonesPosts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get my wall with offset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3MzEwNTY4LCJleHAiOjE1ODczOTY5Njh9.NSSlcUh4PMTMmD6iefKgvFbokEB_xRVLCl3DeOsJtt8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"offset\":9\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/post/getMywallwithOffset",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"getMywallwithOffset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count my wall",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NDU3NTgyLCJleHAiOjE1ODc1NDM5ODJ9.mSKg_CSYQqi6J14Xs4ciWXgi0i1LstkLcPLRZboKV2s",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/post/countmywall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"post",
+								"countmywall"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "new comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NDU3NTgyLCJleHAiOjE1ODc1NDM5ODJ9.mSKg_CSYQqi6J14Xs4ciWXgi0i1LstkLcPLRZboKV2s",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"63baf170-39d2-4cab-a57d-aee9d7670b9b\",\n\t\"msg\" : \"6۲چه گشنگهههههه\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/comment/newComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"comment",
+								"newComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NDYwMDcxLCJleHAiOjE1ODc1NDY0NzF9.WluIMYq5Z4_Pi3gaBL5A6XH9Qdb3tfaJRr3J9zMdDTQ",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"commentId\":\"9b08413a-314c-4f67-bfab-c5a157125095\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/comment/deleteComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"comment",
+								"deleteComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get comments by post with offset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"63baf170-39d2-4cab-a57d-aee9d7670b9b\",\n\t\"offset\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/comment/getCommentsByPostWithOffset",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"comment",
+								"getCommentsByPostWithOffset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count comment by post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"63baf170-39d2-4cab-a57d-aee9d7670b9b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/comment/countCommentsByPost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"comment",
+								"countCommentsByPost"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "hashtag",
+			"item": [
+				{
+					"name": "add hashtags",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NDc2NDU1LCJleHAiOjE1ODc1NjI4NTV9.7Pi-f5Ij3V-vSRbc2er8oTxQQuswGaZxb8Z-ZV3ePBI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\":\"6401d255-b6b0-47fb-b290-1fd689e96c7b\",\n\t\"hashtagNames\" : [\"pop_hashtag\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/hashtag/addHashtags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"hashtag",
+								"addHashtags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete hashtags",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NDc3NTQ0LCJleHAiOjE1ODc1NjM5NDR9.nSsxji_mWCqEQbbyhbw6g7Sv8n2tt_LCfzPNWTxEMY4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\":\"63baf170-39d2-4cab-a57d-aee9d7670b9b\",\n\t\"hashtagNames\" : [\"my_hashtag\",\"my_hashtag2\",\"kdsafjdjsa;ojfda\",\"my_hashtag\",\"my_hashtag2\",\"kdsafjdjsa;ojfda\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/hashtag/deleteHashtags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"hashtag",
+								"deleteHashtags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostHashtags",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\":\"63baf170-39d2-4cab-a57d-aee9d7670b9b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/hashtag/getPostHashtags",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"hashtag",
+								"getPostHashtags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getHashtagPostsWithOffset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"hashtagName\":\"pop_hashtag\",\n\t\"offset\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/hashtag/getHashtagPostsWithOffset",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"hashtag",
+								"getHashtagPostsWithOffset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "countHashtagPosts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"hashtagName\":\"pop_hashtag\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/hashtag/countHashtagPosts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"hashtag",
+								"countHashtagPosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchHashtagByName",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"hashtagName\" : \"hashtag\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/hashtag/searchHashtagByName",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"hashtag",
+								"searchHashtagByName"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "like",
+			"item": [
+				{
+					"name": "newLike",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluNCIsImlhdCI6MTU4NzQ3MDA4MywiZXhwIjoxNTg3NTU2NDgzfQ.vTL-jSAyLW0wykkMmfH3uIGsve7_L2SJZkJ5zVdJmpM",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"5e3e68c0-9856-46c8-92e1-752c3799f52b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/like/newLike",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"like",
+								"newLike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteLike",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTg3NDY5Nzk3LCJleHAiOjE1ODc1NTYxOTd9.Jr5BH7t97eGqeL8cDAYfeqLJeBdaIcLi7uDkI8IvYKQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"63baf170-39d2-4cab-a57d-aee9d7670b9b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/like/deleteLike",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"like",
+								"deleteLike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLikesByPostOffset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"5e3e68c0-9856-46c8-92e1-752c3799f52b\",\n\t\"offset\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/like/getLikesByPostOffset",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"like",
+								"getLikesByPostOffset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "countLikesByPost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postId\" : \"5e3e68c0-9856-46c8-92e1-752c3799f52b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/like/countLikesByPost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"like",
+								"countLikesByPost"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

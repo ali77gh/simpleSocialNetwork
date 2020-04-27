@@ -3,7 +3,6 @@ import ValidationMiddaleware from "./../middleware/validation/HashtagValidationM
 import PostRepo from "../data/repo/PostRepo";
 import Post from "../data/model/Post";
 import HashtagRepo from "../data/repo/HashtagRepo";
-import { string } from "joi";
 import Config from "../Config";
 
 export default class HashtagController {
