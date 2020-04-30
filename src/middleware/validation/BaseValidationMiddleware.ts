@@ -2,46 +2,44 @@
 
 import Joi from "joi";
 
-export default class BaseValidationMiddaleware{
+export default class BaseValidationMiddaleware {
 
+    protected static generateMiddleware(schema) {
+        return (req, res, next) => {
+            if (schema.body) {
+                const { error } = Joi.validate(req.body, schema.body);
+                if (error)
+                    return res.status(400).send(
+                        { err: `${error} in body (json form)` }
+                    );
+            }
 
-    protected static handleError(req, res, next, schema) {
+            if (schema.header) {
+                const { error } = Joi.validate(req.header, schema.header);
+                if (error)
+                    return res.status(400).send(
+                        { err: `${error} in header` }
+                    );
+            }
 
-        if (schema.body) {
-            const { error } = Joi.validate(req.body, schema.body);
-            if (error)
-                return res.status(400).send(
-                    { err: `${error} in body (json form)` }
-                );
+            if (schema.param) {
+                const { error } = Joi.validate(req.params, schema.param);
+                if (error)
+                    return res.status(400).send(
+                        { err: `${error} in params` }
+                    );
+            }
+
+            next();
         }
-
-        if (schema.header) {
-            const { error } = Joi.validate(req.header, schema.header);
-            if (error)
-                return res.status(400).send(
-                    { err: `${error} in header` }
-                );
-        }
-
-        if (schema.param) {
-            const { error } = Joi.validate(req.params, schema.param);
-            if (error)
-                return res.status(400).send(
-                    { err: `${error} in params` }
-                );
-        }
-
-        next();
     }
 
     public static get noValidation() {
-        return (req, res, next) => {
-            this.handleError(req, res, next,
-                {
-                    //empty
-                }
-            )
-        }
+        return this.generateMiddleware(
+            {
+                //empty
+            }
+        )
     }
 
     public static globalJois = {

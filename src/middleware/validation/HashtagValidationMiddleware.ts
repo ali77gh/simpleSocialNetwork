@@ -6,65 +6,53 @@ import Joi from "joi"
 export default class HashtagValidationMiddleware extends BaseValidationMiddaleware {
 
     static get addHashtags() {
-        return (req, res, next) => {
-            super.handleError(req, res, next, {
-                body: {
-                    postId: Post.joi.id,
-                    hashtagNames: Joi.array().items(Hashtag.joi.hashtagName).required() ,
-                }
-            })
-        }
+        return super.generateMiddleware({
+            body: {
+                postId: Post.joi.id,
+                hashtagNames: Joi.array().items(Hashtag.joi.hashtagName).required(),
+            }
+        })
     }
 
     static get deleteHashtags() {
-        return (req, res, next) => {
-            super.handleError(req, res, next, {
-                body: {
-                    postId: Post.joi.id,
-                    hashtagNames: Joi.array().items(Hashtag.joi.hashtagName).required(),
-                }
-            })
-        }
+        return super.generateMiddleware({
+            body: {
+                postId: Post.joi.id,
+                hashtagNames: Joi.array().items(Hashtag.joi.hashtagName).required(),
+            }
+        })
     }
 
     static get getPostHashtags() {
-        return (req, res, next) => {
-            super.handleError(req, res, next, {
-                body: {
-                    postId: Post.joi.id,
-                }
-            })
-        }
+        return super.generateMiddleware({
+            body: {
+                postId: Post.joi.id,
+            }
+        })
     }
 
     static get getHashtagPostsWithOffset() {
-        return (req, res, next) => {
-            super.handleError(req, res, next, {
-                body: {
-                    hashtagName: Hashtag.joi.hashtagName,
-                    offset: super.globalJois.offset
-                }
-            })
-        }
+        return super.generateMiddleware({
+            body: {
+                hashtagName: Hashtag.joi.hashtagName,
+                offset: super.globalJois.offset
+            }
+        })
     }
 
     static get countHashtagPosts() {
-        return (req, res, next) => {
-            super.handleError(req, res, next, {
-                body: {
-                    hashtagName: Hashtag.joi.hashtagName,
-                }
-            })
-        }
+        return super.generateMiddleware({
+            body: {
+                hashtagName: Hashtag.joi.hashtagName,
+            }
+        })
     }
 
     static get searchHashtagByName() {
-        return (req, res, next) => {
-            super.handleError(req, res, next, {
-                body: {
-                    hashtagName: Hashtag.joi.hashtagName,
-                }
-            })
-        }
+        return super.generateMiddleware({
+            body: {
+                hashtagName: Hashtag.joi.hashtagName,
+            }
+        })
     }
 }
