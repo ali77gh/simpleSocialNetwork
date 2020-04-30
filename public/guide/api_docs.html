@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>simple social network</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .persian {
+            direction: rtl;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 40px;
+        }
+
+        .list_item {
+            font-size: 20px;
+            margin-left: 20px;
+        }
+
+        .subtree-lvl0 {
+            text-align: left;
+            margin-left: 0px;
+            margin-top: 10px;
+        }
+
+        .subtree-lvl1 {
+            text-align: left;
+            margin-left: 20px;
+        }
+
+        .card {
+            margin: 20px;
+            padding: 20px;
+            background-color: #eee;
+            max-width: 800px;
+        }
+
+        .graybox {
+            background-color: #ccc;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #222; ">
+    <center>
+
+
+
+        <div style="font-size: 60px; color: #eee; text-align: center;">API docs</div>
+        <div class="card">
+            <div class="title">فهرست</div>
+            <div class="subtree-lvl0">
+
+                <a href="#guide" style="font-size: 20px;">guide (راهنما)</a>
+
+                <div style="font-size: 20px;">/account/*</div>
+                <a class="list_item" href="#/account/signup">/account/signup</a><br>
+                <a class="list_item" href="#/account/login">/account/login</a><br>
+                <a class="list_item" href="#/account/getAccountInfo/:username">/account/getAccountInfo/:username</a><br>
+                <a class="list_item" href="#/account/editfullName">/account/editfullName</a><br>
+                <a class="list_item" href="#/account/editbio">/account/editbio</a><br>
+                <a class="list_item" href="#/account/editpassword">/account/editpassword</a><br>
+                <a class="list_item" href="#/account/logout">/account/logout</a><br>
+                <a class="list_item" href="#/account/searchbyusername">/account/searchbyusername</a><br>
+                <a class="list_item" href="#/account/follow">/account/follow</a><br>
+                <a class="list_item" href="#/account/unfollow">/account/unfollow</a><br>
+                <a class="list_item" href="#/account/getfollowers">/account/getfollowers</a><br>
+                <a class="list_item" href="#/account/getfollowings">/account/getfollowings</a><br>
+                <a class="list_item" href="#/account/countfollowers">/account/countfollowers</a><br>
+                <a class="list_item" href="#/account/countfollowings">/account/countfollowings</a><br>
+
+            </div>
+
+            <div class="subtree-lvl0">
+                <div style="font-size: 20px;">/post/*</div>
+                <a class="list_item" href="#/post/newpost">/post/newpost</a><br>
+                <a class="list_item" href="#/post/editTitle">/post/editTitle</a><br>
+                <a class="list_item" href="#/post/editContent">/post/editContent</a><br>
+                <a class="list_item" href="#/post/getpost/:postId">/post/getpost/:postId</a><br>
+                <a class="list_item" href="#/post/deletePost">/post/deletePost</a><br>
+                <a class="list_item" href="#/post/getsomeonesposts">/post/getsomeonesposts</a><br>
+                <a class="list_item" href="#/post/countSomeonesPosts">/post/countSomeonesPosts</a><br>
+                <a class="list_item" href="#/post/getMywallwithOffset">/post/getMywallwithOffset</a><br>
+                <a class="list_item" href="#/post/countmywall">/post/countmywall</a><br>
+
+            </div>
+
+            <div class="subtree-lvl0">
+                <div style="font-size: 20px;">/comment/*</div>
+                <a class="list_item" href="#/comment/newComment">/comment/newComment</a><br>
+                <a class="list_item" href="#/comment/deleteComment">/comment/deleteComment</a><br>
+                <a class="list_item"
+                    href="#/comment/getCommentsByPostWithOffset">/comment/getCommentsByPostWithOffset</a><br>
+                <a class="list_item" href="#/comment/countCommentsByPost">/comment/countCommentsByPost</a><br>
+            </div>
+
+            <div class="subtree-lvl0">
+                <div style="font-size: 20px;">/hashtag/*</div>
+                <a class="list_item" href="#/hashtag/addHashtags">/hashtag/addHashtags</a><br>
+                <a class="list_item" href="#/hashtag/deleteHashtags">/hashtag/deleteHashtags</a><br>
+                <a class="list_item" href="#/hashtag/getPostHashtags">/hashtag/getPostHashtags</a><br>
+                <a class="list_item"
+                    href="#/hashtag/getHashtagPostsWithOffset">/hashtag/getHashtagPostsWithOffset</a><br>
+                <a class="list_item" href="#/hashtag/countHashtagPosts">/hashtag/countHashtagPosts</a><br>
+                <a class="list_item" href="#/hashtag/searchHashtagByName">/hashtag/searchHashtagByName</a><br>
+
+            </div>
+
+            <div class="subtree-lvl0">
+                <div style="font-size: 20px;">/like/*</div>
+                <a class="list_item" href="#/like/newLike">/like/newLike</a><br>
+                <a class="list_item" href="#/like/deleteLike">/like/deleteLike</a><br>
+                <a class="list_item" href="#/like/getLikesByPostOffset">/like/getLikesByPostOffset</a><br>
+                <a class="list_item" href="#/like/countLikesByPost">/like/countLikesByPost</a><br>
+            </div>
+        </div>
+
+        <div class="card" id="guide">
+            <div class="title">میاد path اینجا</div>
+            <div class="persian">فرم کلی هرچی تو این صفحه میبینید این شکلیه:</div>
+            <div class="persian">این چیزیه که باید بفرستید:</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ attr1 , attr2 , ... }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">تو بخش body شما باید یه json بفرستید که
+                فیلد هایی که مشخص
+                شده رو داشته باشه و
+                اگر نداشته باشه یا درست نباشه ارور برمیگرده و با توجه به ارور میتونید درستش کنید </div>
+            <div class="persian">تو header هم همین طور</div>
+            <div class="persian">در مورد param هم اگه لازم بود به اخر url یه
+                اسلش میزنید
+                و مقدار رو میزارید بعد اسلش</div>
+            <div class="persian">در صورت اینکه با کلمه های nothing مواجه شدید مثل همین مثال بالا ینی لازم نیست در مورد
+                اونا
+                کاری بکنید و همون دیفالت رو بفرستید</div>
+            <div class="persian">همه ی ریکویست ها هم با متد post کار میکنه</div>
+            <div class="persian">جا هایی هم که offset دیدید ینی کل دیتا رو یه جا نمیتونید بگیرید و باید چند تا چند تا
+                بگیرید در اولین ریکويست offset رو مساوی 1 قرار بدید و هر بار یدونه بهش اضافه کنید</div>
+            <div class="persian">هر جا به مشکلی خوردید هم با من در تماس باشید</div>
+            <div style="text-align: center;">
+                <a style="font-size: 20px;" href="https://alisblog.ir" target="_blank">👉 من 👈</a>
+            </div>
+
+        </div>
+
+
+        <!-- --------------------------------------------template-------------------------------------------- -->
+        <!-- <div class="card" id="/account/signup">
+        <div class="title">/account/signup</div>
+
+        <div class="persian">توضیحات:</div>
+        <div class="persian">یکم توضیحات</div>
+        <div class="graybox">
+            <div class="subtree-lvl0">send:</div>
+            <div class="subtree-lvl1">body:{ email , username , password , fullName , bio }</div>
+            <div class="subtree-lvl1">header: nothing</div>
+            <div class="subtree-lvl1">param: nothing</div>
+        </div>
+
+        <div class="persian">یکم دیگه توضیحات</div>
+    </div> -->
+
+        <!-- --------------------------------------------account-------------------------------------------- -->
+        <div class="card" id="/account/signup">
+            <div class="title">/account/signup</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">با ریکویست فرستادن به این مسیر شما میتونید یه اکانت بسازید و حتما هم لازم نیست که ایمیل
+                خودتون رو بزنید چون نیاز به تایید نداره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ email , username , password , fullName , bio }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/login">
+            <div class="title">/account/login</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">این یکی هم برای لاگین کردن هست و در صورت درست بودن username و پسورد در جواب یه توکن
+                بهتون
+                میده که باید توی ریکويست های بعدی بزاریدش تو header تا هویت شما در سمت سرور مشخص شه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username , password }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+            <div class="persian">از اینجا به بعد در این داکیومنت هر وقت x-auth-token رو دیدید به جای مقدارش باید توکنی
+                که از
+                لاگین گرفتید رو بزارید</div>
+            <div class="persian">لازمه بگم که این توکن فقط ۲۴ ساعت قابل استفاده هست و بعد از اون دوباره باید لاگین کنید
+                و از
+                توکن جدید توی ریکویست هاتون استفاده کنید</div>
+        </div>
+
+        <div class="card" id="/account/getAccountInfo/:username">
+            <div class="title">/account/getAccountInfo</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">میتونید اطلاعات یه اکانت رو بگیرید</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: nothing</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: { username }</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/editfullName">
+            <div class="title">/account/editFullName</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش مشخصه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ newFullName }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+        </div>
+
+        <div class="card" id="/account/editbio">
+            <div class="title">/account/editBio</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش مشخصه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ newBio }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+        </div>
+
+        <div class="card" id="/account/editpassword">
+            <div class="title">/account/editPassword</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش مشخصه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ oldpassword , newpassword }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/logout">
+            <div class="title">/account/logout</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">توکنی که میفرستید رو میزاره تو black list و دیگه با اون توکن نمیشه کاری کرد</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: nothing</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+        </div>
+
+        <div class="card" id="/account/searchbyusername">
+            <div class="title">/account/searchbyusername</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">username های شبیه رو میاره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username , offset }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+            <div class="persian">برای offset به
+                <a href="#guide"> راهنما </a>
+                مراجعه کنید</div>
+        </div>
+
+        <div class="card" id="/account/follow">
+            <div class="title">/account/follow</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">یا این میتونید یه نفر رو فالو کنید</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+        </div>
+
+        <div class="card" id="/account/unfollow">
+            <div class="title">/account/unfollow</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">با این میتونید یکی رو انفالو کنید</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/getfollowers">
+            <div class="title">/account/getfollowers</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">لیست follwer های یه نفر رو میده</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/getfollowings">
+            <div class="title">/account/getfollowings</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">لیست follwing های یه نفر رو میده</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/countfollowers">
+            <div class="title">/account/countfollowers</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">follower های یه نفر رو میشماره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/account/countfollowings">
+            <div class="title">/account/countfollowings</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">following های یه نفر رو میشماره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+    </center>
+</body>
+
+</html>

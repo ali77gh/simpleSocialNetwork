@@ -4,9 +4,8 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "start": "node dist/App.js",
-    "build": "tsc",
-    "build_start":"tsc && npm start",
+    "start": "tsc && node dist/App.js",
+    "rebuild": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ali ghahremani",
