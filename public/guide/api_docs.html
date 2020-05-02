@@ -90,12 +90,12 @@
                 <a class="list_item" href="#/post/newpost">/post/newpost</a><br>
                 <a class="list_item" href="#/post/editTitle">/post/editTitle</a><br>
                 <a class="list_item" href="#/post/editContent">/post/editContent</a><br>
-                <a class="list_item" href="#/post/getpost/:postId">/post/getpost/:postId</a><br>
+                <a class="list_item" href="#/post/getPost">/post/getPost/:postId</a><br>
                 <a class="list_item" href="#/post/deletePost">/post/deletePost</a><br>
-                <a class="list_item" href="#/post/getsomeonesposts">/post/getsomeonesposts</a><br>
+                <a class="list_item" href="#/post/getSomeonesPosts">/post/getSomeonesPosts</a><br>
                 <a class="list_item" href="#/post/countSomeonesPosts">/post/countSomeonesPosts</a><br>
                 <a class="list_item" href="#/post/getMywallwithOffset">/post/getMywallwithOffset</a><br>
-                <a class="list_item" href="#/post/countmywall">/post/countmywall</a><br>
+                <!-- <a class="list_item" href="#/post/countmywall">/post/countmywall</a><br> -->
 
             </div>
 
@@ -374,6 +374,337 @@
                 <div class="subtree-lvl0">send:</div>
                 <div class="subtree-lvl1">body:{ username }</div>
                 <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <!-- --------------------------------------------------------------- -->
+
+        <div class="card" id="/post/newPost">
+            <div class="title">/post/newPost</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">حالا یه پست بزاریم</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ title , content }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/post/editTitle">
+            <div class="title">/post/editTitle</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ id , newTitle }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">اینجا id منظور ای دی پست هست</div>
+        </div>
+
+        <div class="card" id="/post/editContent">
+            <div class="title">/post/editContent</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ id , newContent }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">اینجا id منظور ای دی پست هست</div>
+        </div>
+
+        <div class="card" id="/post/editContent">
+            <div class="title">/post/editContent</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body:{ id , newContent }</div>
+                <div class="subtree-lvl1">header: { x-auth-token }</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">اینجا id منظور ای دی پست هست</div>
+        </div>
+
+        <div class="card" id="/post/getPost">
+            <div class="title">/post/getPost</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: nothing</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: posttId</div>
+            </div>
+            <div class="persian">اینجا id منظور ای دی پست هست</div>
+        </div>
+
+        <div class="card" id="/post/deletePost">
+            <div class="title">/post/deletePost</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: posttId</div>
+            </div>
+        </div>
+
+        <div class="card" id="/post/getSomeonesPosts">
+            <div class="title">/post/getSomeonesPosts</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { username , offset }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">برای offset به
+                <a href="#guide"> راهنما </a>
+                مراجعه کنید</div>
+        </div>
+
+        <div class="card" id="/post/countSomeonesPosts">
+            <div class="title">/post/countSomeonesPosts</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { username }</div>
+                <div class="subtree-lvl1">header: nothing</div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/post/getMyWallWithOffset">
+            <div class="title">/post/getMyWallWithOffset</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">از اسمش معلومه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { offset }</div>
+                <div class="subtree-lvl1">header: {x-auth-token} </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <!-- -------------------------------------------------------------------- -->
+
+        <div class="card" id="/comment/newComment">
+            <div class="title">/comment/newComment</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">بریم کامنت بزاریم بره ملت</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId , msg }</div>
+                <div class="subtree-lvl1">header: {x-auth-token} </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">اینجا msg پیامیه که میخوای کامنت بزاری</div>
+            <div class="persian">و postId پستی هست که میخوای زیرش کامنت بزاری</div>
+        </div>
+
+        <div class="card" id="/comment/deleteComment">
+            <div class="title">/comment/deleteComment</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">اوه اوه بریم کامنتمون رو پاک کنیم</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { commentId }</div>
+                <div class="subtree-lvl1">header: {x-auth-token} </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/comment/getCommentsByPostWithOffset">
+            <div class="title">/comment/getCommentsByPostWithOffset</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">کامنت های یه پست رو ببینیم</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId , offset }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+            <div class="persian">برای offset به
+                <a href="#guide"> راهنما </a>
+                مراجعه کنید</div>
+        </div>
+
+        <div class="card" id="/comment/countCommentsByPost">
+            <div class="title">/comment/countCommentsByPost</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">کامنت های یه پست رو بشمریم</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <!-- ------------------------------------------------------------------- -->
+
+        <div class="card" id="/hashtag/addHashtags">
+            <div class="title">/hashtag/addHashtags</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">هشتگ به پست اضافه میکنیم</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId , hashtagNames }</div>
+                <div class="subtree-lvl1">header: {x-auth-token} </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+            <div class="persian">اینجا hashtagNames به شکل ارایه است</div>
+        </div>
+
+        <div class="card" id="/hashtag/deleteHashtags">
+            <div class="title">/hashtag/deleteHashtags</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">هشتگ ها ی یه پست رو پاک میکنه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId , hashtagNames }</div>
+                <div class="subtree-lvl1">header: {x-auth-token} </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+            <div class="persian">اینجا hashtagNames به شکل ارایه است</div>
+        </div>
+
+        <div class="card" id="/hashtag/getPostHashtags">
+            <div class="title">/hashtag/getPostHashtags</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">هشتگ های یه پست رو میگیره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/hashtag/getHashtagPostsWithOffset">
+            <div class="title">/hashtag/getHashtagPostsWithOffset</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">پست های یه هشتگ رو میگیره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { hashtagName , offset }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+            <div class="persian">برای offset به
+                <a href="#guide"> راهنما </a>
+                مراجعه کنید</div>
+        </div>
+
+        <div class="card" id="/hashtag/countHashtagPosts">
+            <div class="title">/hashtag/countHashtagPosts</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">پست های یه هشتگ رو میشماره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { hashtagName }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/hashtag/searchHashtagByName">
+            <div class="title">/hashtag/searchHashtagByName</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">هشتگ های شبیه به چیزی که میفرستید رو بر میگردونه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { hashtagName }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+         <!-- ------------------------------------------------------------------- -->
+
+         <div class="card" id="/like/newLike">
+            <div class="title">/like/newLike</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">یه پست رو لایک میکنه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId }</div>
+                <div class="subtree-lvl1">header: { x-auth-token } </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/like/deleteLike">
+            <div class="title">/like/deleteLike</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">لایک یه پستی رو پس میگیره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId }</div>
+                <div class="subtree-lvl1">header: { x-auth-token } </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+        </div>
+
+        <div class="card" id="/like/getLikesByPostOffset">
+            <div class="title">/like/getLikesByPostOffset</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">کسایی که یه پست رو لایک کردن رو بر میگردونه</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId , offset }</div>
+                <div class="subtree-lvl1">header: nothing </div>
+                <div class="subtree-lvl1">param: nothing</div>
+            </div>
+
+            <div class="persian">برای offset به
+                <a href="#guide"> راهنما </a>
+                مراجعه کنید</div>
+        </div>
+
+        <div class="card" id="/like/countLikesByPost">
+            <div class="title">/like/countLikesByPost</div>
+
+            <div class="persian">توضیحات:</div>
+            <div class="persian">لایک های یه پست رو میشمره</div>
+            <div class="graybox">
+                <div class="subtree-lvl0">send:</div>
+                <div class="subtree-lvl1">body: { postId }</div>
+                <div class="subtree-lvl1">header: nothing </div>
                 <div class="subtree-lvl1">param: nothing</div>
             </div>
         </div>
