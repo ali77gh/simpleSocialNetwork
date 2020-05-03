@@ -35,10 +35,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/signup",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/signup",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -65,10 +65,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/login",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/login",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -86,10 +86,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/getAccountInfo/admin",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/getAccountInfo/admin",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -123,10 +123,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/editbio",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/editbio",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -159,10 +159,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/editpassword",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/editpassword",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -186,10 +186,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/logout",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/logout",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -222,10 +222,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/searchbyusername",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/searchbyusername",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -258,10 +258,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/follow",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/follow",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -294,10 +294,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/unfollow",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/unfollow",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -324,10 +324,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/getfollowers",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/getfollowers",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -354,10 +354,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/getfollowings",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/getfollowings",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -384,10 +384,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/countfollowers",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/countfollowers",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -414,10 +414,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/account/countfollowings",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/account/countfollowings",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -447,10 +447,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/admin/getlogs",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/admin/getlogs",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -474,10 +474,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/admin/clearlogs",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/admin/clearlogs",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -501,10 +501,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/admin/backupdatabase",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/admin/backupdatabase",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -543,10 +543,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/newpost",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/newpost",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -579,10 +579,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/editTitle",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/editTitle",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -615,10 +615,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/editContent",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/editContent",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -636,10 +636,10 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/getpost/63baf170-39d2-4cab-a57d-aee9d7670b9b",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/getpost/63baf170-39d2-4cab-a57d-aee9d7670b9b",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -673,10 +673,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/deletePost",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/deletePost",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -703,10 +703,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/getsomeonesposts/",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/getsomeonesposts/",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -734,10 +734,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/countSomeonesPosts/",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/countSomeonesPosts/",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -771,10 +771,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/getMywallwithOffset",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/getMywallwithOffset",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -798,10 +798,10 @@
 							}
 						],
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/post/countmywall",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/post/countmywall",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -840,10 +840,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/comment/newComment",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/comment/newComment",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -882,10 +882,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/comment/deleteComment",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/comment/deleteComment",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -912,10 +912,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/comment/getCommentsByPostWithOffset",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/comment/getCommentsByPostWithOffset",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -942,10 +942,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/comment/countCommentsByPost",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/comment/countCommentsByPost",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -984,10 +984,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/hashtag/addHashtags",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/hashtag/addHashtags",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1020,10 +1020,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/hashtag/deleteHashtags",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/hashtag/deleteHashtags",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1050,10 +1050,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/hashtag/getPostHashtags",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/hashtag/getPostHashtags",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1080,10 +1080,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/hashtag/getHashtagPostsWithOffset",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/hashtag/getHashtagPostsWithOffset",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1110,10 +1110,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/hashtag/countHashtagPosts",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/hashtag/countHashtagPosts",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1140,10 +1140,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/hashtag/searchHashtagByName",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/hashtag/searchHashtagByName",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1188,10 +1188,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/like/newLike",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/like/newLike",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1224,10 +1224,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/like/deleteLike",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/like/deleteLike",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1254,10 +1254,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/like/getLikesByPostOffset",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/like/getLikesByPostOffset",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
@@ -1284,10 +1284,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://ssn-ali77gh.fandogh.cloud/like/countLikesByPost",
+							"raw": "https://ssn-ssnadmin.fandogh.cloud/like/countLikesByPost",
 							"protocol": "https",
 							"host": [
-								"ssn-ali77gh",
+								"ssn-ssnadmin",
 								"fandogh",
 								"cloud"
 							],
