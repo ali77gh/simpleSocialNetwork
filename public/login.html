@@ -1,0 +1,62 @@
+<html>
+<body>
+    <center>
+        <input id="username" placeholder="username"><br><br>
+        <input id="password" type="password" placeholder="password"><br><br>
+
+        <button id="login_btn">login</button><br><br>
+        <p id="response"> </p>
+    </center>
+
+    <script>
+        let username = document.getElementById("username");
+        let password = document.getElementById("password");
+        let login_btn = document.getElementById("login_btn");
+        let response_box = document.getElementById("response");
+        const url = "http://ssn-ssnadmin.fandogh.cloud";
+        const path = "/account/login";
+
+        function write(obj) {
+            response_box.innerText = response_box.innerText + "\n" + JSON.stringify(obj)
+        }
+
+        function handleResponse(e) {
+
+            if (xhr.status != 200) { // analyze HTTP status of the response
+                write(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+            } else { // show the result
+                write(`Done, got ${xhr.response.length} bytes`); // response is the server
+            }
+
+            console.log(JSON.parse(e.responseText))
+            // console.log(e)
+        }
+
+        function post(body) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url + path, true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            console.log(body)
+            xhr.send(JSON.stringify(body) );
+            xhr.onload = function () {
+                let body = JSON.parse(xhr.responseText);
+                if (xhr.status != 200) { // analyze HTTP status of the response
+                    write("err: " + body.err); // e.g. 404: Not Found
+                } else { // show the result
+                    write("token: " + body["x-auth-token"]); // response is the server
+                }
+            };
+        }
+
+        login_btn.addEventListener("click", (ev) => {
+            const body = {
+                username: username.value,
+                password: password.value
+            };
+            post(body)
+
+        })
+    </script>
+</body>
+
+</html>

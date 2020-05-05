@@ -15,6 +15,7 @@ import CommentController from "./controllers/CommentController";
 import LoggerMiddleware from "./middleware/LoggerMiddleware";
 import AuthMiddleware   from "./middleware/AuthMiddleware";
 import bodyParser       from "body-parser";
+import cors             from 'cors';
 
 
 class Main{
@@ -41,8 +42,9 @@ class Main{
     private initMiddlewares() {
         
         this.app.use(bodyParser.json())
+        this.app.use(cors()) // enable cross origin requests
         LoggerMiddleware.init(this.app);
-        AuthMiddleware.gcLoop()
+        AuthMiddleware.gcLoop();
     }
 
     private initRouter(){
