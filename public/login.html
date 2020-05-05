@@ -13,30 +13,17 @@
         let password = document.getElementById("password");
         let login_btn = document.getElementById("login_btn");
         let response_box = document.getElementById("response");
-        const url = "http://ssn-ssnadmin.fandogh.cloud";
+        const url = "https://ssn-ssnadmin.fandogh.cloud";
         const path = "/account/login";
 
         function write(obj) {
             response_box.innerText = response_box.innerText + "\n" + JSON.stringify(obj)
         }
 
-        function handleResponse(e) {
-
-            if (xhr.status != 200) { // analyze HTTP status of the response
-                write(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
-            } else { // show the result
-                write(`Done, got ${xhr.response.length} bytes`); // response is the server
-            }
-
-            console.log(JSON.parse(e.responseText))
-            // console.log(e)
-        }
-
         function post(body) {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', url + path, true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            console.log(body)
             xhr.send(JSON.stringify(body) );
             xhr.onload = function () {
                 let body = JSON.parse(xhr.responseText);
